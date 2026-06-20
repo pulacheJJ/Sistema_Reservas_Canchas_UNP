@@ -1,0 +1,20 @@
+/* Custom Scrollbar para la navegación del Sidebar */
+.sidebar-nav::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+    background: rgba(30, 58, 138, 0.5);
+    /* blue-900 semi transparente */
+    border-radius: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background: rgba(147, 197, 253, 0.3);
+    /* blue-300 semi transparente */
+    border-radius: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background: rgba(147, 197, 253, 0.6);
+}
