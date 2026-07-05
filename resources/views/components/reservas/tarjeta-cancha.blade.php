@@ -8,7 +8,7 @@
 
 <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col border border-gray-200 transition-transform hover:-translate-y-1 hover:shadow-lg">
     <div class="h-48 w-full bg-gray-200 relative">
-        <img src="{{ $imagen }}" alt="{{ $nombre }}" class="w-full h-full object-cover">
+        <img src="{{ filter_var($imagen, FILTER_VALIDATE_URL) ? $imagen : asset('images/' . $imagen) }}" alt="{{ $nombre }}" class="w-full h-full object-cover">
         <div class="absolute top-3 right-3 px-2 py-1 rounded text-xs font-bold uppercase shadow-sm {{ $badgeClass }}">
             {{ $estado }}
         </div>

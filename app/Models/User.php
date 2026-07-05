@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'codigo',
+        'role',
     ];
 
     /**
@@ -42,4 +44,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Check if user is an administrator.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is a student.
+     */
+    public function isStudent(): bool
+    {
+        return $this->role === 'estudiante';
+    }
+
+    /**
+     * Get the reservations for the user.
+     */
+    public function reservas()
+    {
+        return $this->hasMany(Reserva::class);
+    }
 }

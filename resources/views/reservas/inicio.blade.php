@@ -3,48 +3,39 @@
 @section('title', 'Instalaciones | UNP')
 
 @section('content')
+    @if(session('success'))
+        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <span class="block sm:inline">{{ session('success') }}</span>
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <ul class="list-disc pl-5">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="mb-8 border-b pb-4">
-        <h2 class="text-3xl font-bold text-gray-800">Recintos Deportivos</h2>
-        <p class="text-gray-600 mt-2">Selecciona la instalación para tu partido.</p>
+        <h2 class="text-3xl font-bold text-gray-800">Canchas Disponibles</h2>
+        <p class="text-gray-600 mt-2">Selecciona la instalación y el horario que deseas utilizar para tu reserva.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
-        @include('components.reservas.tarjeta-cancha', [
-            'id' => 1,
-            'nombre' => 'Cancha Principal',
-            'tipo' => 'Fútbol 11 (Césped Natural)',
-            'ubicacion' => 'Campus UNP - Estadio',
-            'estado' => 'Disponible',
-            'imagen' => 'https://images.unsplash.com/photo-1518605368461-1e122b515513?w=500'
-        ])
-
-        @include('components.reservas.tarjeta-cancha', [
-            'id' => 2,
-            'nombre' => 'Canchas Sintéticas',
-            'tipo' => 'Futsal 7 / Futsal 5',
-            'ubicacion' => 'Zona Deportiva',
-            'estado' => 'Disponible',
-            'imagen' => 'https://images.unsplash.com/photo-1551280857-226871a39626?w=500'
-        ])
-
-        @include('components.reservas.tarjeta-cancha', [
-            'id' => 3,
-            'nombre' => 'Coliseo UNP',
-            'tipo' => 'Multiusos (Básquet/Futsal/Vóley)',
-            'ubicacion' => 'Frente a Rectorado',
-            'estado' => 'Mantenimiento',
-            'imagen' => 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?w=500'
-        ])
-
-        @include('components.reservas.tarjeta-cancha', [
-            'id' => 4,
-            'nombre' => 'Local Tangara',
-            'tipo' => 'Espacios Múltiples',
-            'ubicacion' => 'Sede Tangara (Externa)',
-            'estado' => 'Disponible',
-            'imagen' => 'https://images.unsplash.com/photo-1526232761682-d26e03ac148e?w=500'
-        ])
+        @foreach($canchas as $cancha)
+            @include('components.reservas.tarjeta-cancha', [
+                'id' => $cancha->id,
+                'nombre' => $cancha->nombre,
+                'tipo' => $cancha->tipo,
+                'ubicacion' => $cancha->ubicacion,
+                'estado' => $cancha->estado,
+                'imagen' => $cancha->imagen
+            ])
+        @endforeach
 
     </div>
 
