@@ -5,7 +5,8 @@
             <button id="btn-cerrar-modal" class="text-gray-400 hover:text-red-500 text-2xl leading-none">&times;</button>
         </div>
         
-        <form action="#" method="POST" id="form-reserva" class="space-y-4">
+        <form action="{{ route('reservas.store') }}" method="POST" id="form-reserva" class="space-y-4">
+            @csrf
             <input type="hidden" id="cancha_id" name="cancha_id">
             
             <div class="bg-blue-50 p-3 rounded text-sm text-blue-900 border border-blue-100 mb-4">
@@ -21,6 +22,12 @@
             <div>
                 <label for="hora_inicio" class="block text-sm font-medium text-gray-700">Horario de Inicio</label>
                 <input type="time" id="hora_inicio" name="hora_inicio" required 
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-800 focus:ring-blue-800 p-2 border">
+            </div>
+
+            <div>
+                <label for="hora_fin" class="block text-sm font-medium text-gray-700">Horario de Fin</label>
+                <input type="time" id="hora_fin" name="hora_fin" required 
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-800 focus:ring-blue-800 p-2 border">
             </div>
 
