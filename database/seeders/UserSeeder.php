@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // 1. Crear Administrador Principal
-        User::firstOrCreate(
+        User::updateOrCreate(
             ['codigo' => 'admin'],
             [
                 'name' => 'Administrador UNP',
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
         );
 
         // 2. Crear Estudiante de Prueba 1
-        User::firstOrCreate(
+        User::updateOrCreate(
             ['codigo' => '0512022099'],
             [
                 'name' => 'Juan Jimenez',
@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
         );
 
         // 3. Crear Estudiante de Prueba 2
-        User::firstOrCreate(
+        User::updateOrCreate(
             ['codigo' => '0512022089'],
             [
                 'name' => 'Julio Garcia',
@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
         );
         
         // 4. Crear Administrador Secundario
-        User::firstOrCreate(
+        User::updateOrCreate(
             ['codigo' => 'admin2'],
             [
                 'name' => 'Soporte Deportes',
