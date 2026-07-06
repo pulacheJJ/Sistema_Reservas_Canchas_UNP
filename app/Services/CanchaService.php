@@ -26,9 +26,9 @@ class CanchaService
     /**
      * Crea una nueva cancha y guarda su imagen.
      */
-    public function crearCancha(array $data, ?UploadedFile $imagen)
+    public function crearCancha(array $data, ?UploadedFile $imagen = null)
     {
-        $nombreImagen = 'default-cancha.jpg'; // Imagen por defecto
+        $nombreImagen = $data['imagen'] ?? 'default-cancha.jpg';
 
         if ($imagen) {
             $nombreImagen = time() . '.' . $imagen->extension();
@@ -39,7 +39,9 @@ class CanchaService
             'nombre' => $data['nombre'],
             'tipo' => $data['tipo'],
             'ubicacion' => $data['ubicacion'],
-            'estado' => $data['estado'],
+            'estado' => $data['estado'] ?? 'Disponible',
+            'descripcion' => $data['descripcion'] ?? null,
+            'capacidad' => $data['capacidad'] ?? 10,
             'imagen' => $nombreImagen,
         ]);
     }

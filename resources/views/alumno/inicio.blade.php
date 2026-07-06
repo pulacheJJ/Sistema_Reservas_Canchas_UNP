@@ -2,6 +2,11 @@
 
 @section('title', 'Instalaciones | UNP')
 
+@push('styles')
+    <!-- FullCalendar CSS CDN -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+@endpush
+
 @section('content')
     @if(session('success'))
         <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
@@ -49,5 +54,9 @@
 @endsection
 
 @push('scripts')
+    <!-- FullCalendar JS CDN -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.js'></script>
+    
     <script src="{{ asset('js/reservas/inicio.js') }}"></script>
 @endpush

@@ -10,7 +10,7 @@
         body { font-family: 'Outfit', sans-serif; }
         
         .bg-left-panel {
-            background-image: url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-image: url('{{ asset('images/login-inicio.jpeg') }}');
             background-size: cover;
             background-position: center;
         }

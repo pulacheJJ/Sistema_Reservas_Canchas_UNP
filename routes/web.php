@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminCanchaController;
+use App\Http\Controllers\AdminUsuarioController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
@@ -50,4 +51,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/canchas', [AdminCanchaController::class, 'index'])->name('admin.canchas.index');
     Route::post('/admin/canchas', [AdminCanchaController::class, 'store'])->name('admin.canchas.store');
     Route::post('/admin/canchas/{cancha}/estado', [AdminCanchaController::class, 'toggleEstado'])->name('admin.canchas.estado');
+
+    // Módulo Usuarios Admin
+    Route::get('/admin/usuarios', [AdminUsuarioController::class, 'index'])->name('admin.usuarios.index');
+    Route::post('/admin/usuarios/{user}/role', [AdminUsuarioController::class, 'updateRole'])->name('admin.usuarios.role');
+    Route::post('/admin/usuarios/{user}/reset-password', [AdminUsuarioController::class, 'resetPassword'])->name('admin.usuarios.reset-password');
 });

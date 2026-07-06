@@ -18,7 +18,7 @@
             </div>
             <h3 class="text-lg font-semibold text-gray-800">Canchas y Recintos</h3>
             <p class="text-gray-500 text-sm mt-2">Administrar la disponibilidad, estado y características de los espacios deportivos.</p>
-            <button class="mt-4 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg font-medium hover:bg-blue-100 transition-colors w-full">Gestionar Recintos</button>
+            <a href="{{ route('admin.canchas.index') }}" class="mt-4 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg font-medium hover:bg-blue-100 transition-colors w-full block">Gestionar Recintos</a>
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center">
@@ -29,7 +29,7 @@
             </div>
             <h3 class="text-lg font-semibold text-gray-800">Reservas</h3>
             <p class="text-gray-500 text-sm mt-2">Revisar, aprobar o cancelar solicitudes de reserva de estudiantes y docentes.</p>
-            <button class="mt-4 px-4 py-2 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors w-full">Ver Reservas</button>
+            <a href="{{ route('admin.reservas.index') }}" class="mt-4 px-4 py-2 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors w-full block">Ver Reservas</a>
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center">
@@ -40,7 +40,7 @@
             </div>
             <h3 class="text-lg font-semibold text-gray-800">Usuarios</h3>
             <p class="text-gray-500 text-sm mt-2">Gestionar las cuentas de estudiantes y docentes que acceden al sistema.</p>
-            <button class="mt-4 px-4 py-2 bg-purple-50 text-purple-600 rounded-lg font-medium hover:bg-purple-100 transition-colors w-full">Gestionar Usuarios</button>
+            <a href="{{ route('admin.usuarios.index') }}" class="mt-4 px-4 py-2 bg-purple-50 text-purple-600 rounded-lg font-medium hover:bg-purple-100 transition-colors w-full block">Gestionar Usuarios</a>
         </div>
 
     </div>
