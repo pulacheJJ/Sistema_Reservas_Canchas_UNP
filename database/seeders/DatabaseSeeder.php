@@ -12,15 +12,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::create([
-            'name' => 'Administrador UNP',
-            'codigo' => 'admin',
-            'role' => 'admin',
-            'password' => bcrypt('admin123'),
-        ]);
-
-        // Se elimina el estudiante de prueba para producción
         $this->call([
+            UserSeeder::class,
             CanchaSeeder::class,
         ]);
     }
