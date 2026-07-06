@@ -12,6 +12,8 @@ class Cancha extends Model
     protected $fillable = [
         'nombre',
         'tipo',
+        'descripcion',
+        'capacidad',
         'ubicacion',
         'estado',
         'imagen',

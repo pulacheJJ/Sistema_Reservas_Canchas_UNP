@@ -12,7 +12,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        return view('perfil.index', ['user' => Auth::user()]);
+        return view('shared.perfil', ['user' => Auth::user()]);
     }
 
     public function update(Request $request)

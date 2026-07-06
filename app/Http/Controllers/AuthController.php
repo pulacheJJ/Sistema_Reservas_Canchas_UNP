@@ -8,7 +8,49 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
-        return view('reservas.login');
+        return view('auth.login');
+    }
+
+    public function showRegister()
+    {
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'codigo' => 'required|string|max:20|unique:users',
+            'name' => 'required|string|max:255',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users', function ($attribute, $value, $fail) {
+                if (!str_ends_with($value, '@alumnos.unp.edu.pe')) {
+                    $fail('Solo se permiten correos institucionales terminados en @alumnos.unp.edu.pe');
+                }
+            }],
+            'password' => 'required|string|min:8|confirmed',
+        ], [
+            'codigo.required' => 'El código institucional es obligatorio.',
+            'codigo.unique' => 'Este código institucional ya está registrado.',
+            'name.required' => 'El nombre es obligatorio.',
+            'name.max' => 'El nombre es demasiado largo.',
+            'email.required' => 'El correo es obligatorio.',
+            'email.email' => 'El formato del correo no es válido.',
+            'email.unique' => 'Este correo ya se encuentra registrado.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
+        ]);
+
+        $user = \App\Models\User::create([
+            'codigo' => $request->codigo,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => 'estudiante',
+        ]);
+
+        \Illuminate\Support\Facades\Auth::login($user);
+
+        return redirect()->route('reservas.inicio')->with('success', 'Cuenta creada exitosamente.');
     }
 
     public function login(Request $request)
