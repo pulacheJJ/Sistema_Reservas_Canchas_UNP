@@ -19,13 +19,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin123'),
         ]);
 
-        \App\Models\User::create([
-            'name' => 'Estudiante Prueba',
-            'codigo' => '2023123456',
-            'role' => 'estudiante',
-            'password' => bcrypt('87654321'),
-        ]);
-
+        // Se elimina el estudiante de prueba para producción
         $this->call([
             CanchaSeeder::class,
         ]);

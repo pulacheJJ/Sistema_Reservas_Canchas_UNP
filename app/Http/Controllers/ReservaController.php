@@ -2,53 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreReservaRequest;
 use App\Models\Cancha;
-use App\Models\Reserva;
+use App\Services\CanchaService;
+use App\Services\ReservaService;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class ReservaController extends Controller
 {
+    public function __construct(
+        protected ReservaService $reservaService,
+        protected CanchaService $canchaService
+    ) {}
+
     /**
      * Muestra la vista principal (catálogo) para realizar reservas.
      */
     public function inicio()
     {
-        $canchas = Cancha::all();
-        return view('reservas.inicio', compact('canchas'));
+        $canchas = $this->canchaService->obtenerTodas();
+        return view('alumno.inicio', compact('canchas'));
     }
 
     /**
      * Guarda una nueva solicitud de reserva.
      */
-    public function store(Request $request)
+    public function store(StoreReservaRequest $request)
     {
-        $request->validate([
-            'cancha_id' => 'required|exists:canchas,id',
-            'fecha' => 'required|date|after_or_equal:today',
-            'hora_inicio' => 'required',
-            'hora_fin' => 'required|after:hora_inicio',
-        ]);
+        try {
+            $this->reservaService->crearReserva($request->validated());
 
-        // Verificar si el usuario está sancionado
-        $sancionActiva = \App\Models\Sancion::where('user_id', Auth::id())
-            ->where('fecha_fin', '>=', now())
-            ->first();
-
-        if ($sancionActiva) {
-            return back()->withErrors(['loginError' => 'No puedes realizar reservas porque tienes una sanción activa hasta el ' . \Carbon\Carbon::parse($sancionActiva->fecha_fin)->format('d/m/Y') . '. Motivo: ' . $sancionActiva->motivo]);
+            return redirect()->route('reservas.inicio')->with('success', 'Tu reserva ha sido registrada y está en estado Pendiente.');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
+    }
 
-        Reserva::create([
-            'user_id' => Auth::id(),
-            'cancha_id' => $request->cancha_id,
-            'fecha' => $request->fecha,
-            'hora_inicio' => $request->hora_inicio,
-            'hora_fin' => $request->hora_fin,
-            'estado' => 'Pendiente',
-        ]);
-
-        return redirect()->route('reservas.inicio')->with('success', '¡Tu solicitud de reserva ha sido enviada! Está pendiente de aprobación.');
+    public function cancelar(Reserva $reserva)
+    {
+        try {
+            $this->reservaService->cancelarReservaEstudiante($reserva, auth()->id());
+            return back()->with('success', 'Tu reserva ha sido cancelada exitosamente.');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -56,8 +54,8 @@ class ReservaController extends Controller
      */
     public function misReservas()
     {
-        $reservas = Auth::user()->reservas()->with('cancha')->orderBy('created_at', 'desc')->get();
-        return view('reservas.mis-reservas', compact('reservas'));
+        $reservas = $this->reservaService->obtenerHistorialUsuario(Auth::id());
+        return view('alumno.mis-reservas', compact('reservas'));
     }
 
     /**
@@ -65,8 +63,8 @@ class ReservaController extends Controller
      */
     public function calendario()
     {
-        $canchas = Cancha::where('estado', 'Disponible')->get();
-        return view('reservas.calendario', compact('canchas'));
+        $canchas = $this->canchaService->obtenerDisponibles();
+        return view('alumno.calendario', compact('canchas'));
     }
 
     /**
@@ -74,21 +72,7 @@ class ReservaController extends Controller
      */
     public function apiHorarios(Cancha $cancha)
     {
-        $reservasAprobadas = Reserva::where('cancha_id', $cancha->id)
-                                    ->where('estado', 'Aprobada')
-                                    ->get();
-        
-        $eventos = [];
-        foreach ($reservasAprobadas as $reserva) {
-            $eventos[] = [
-                'title' => $reserva->is_evento ? '🏅 ' . $reserva->titulo_evento : 'Ocupado',
-                'start' => $reserva->fecha . 'T' . $reserva->hora_inicio,
-                'end' => $reserva->fecha . 'T' . $reserva->hora_fin,
-                'color' => $reserva->is_evento ? '#7c3aed' : '#dc2626', // bg-purple-600 vs bg-red-600
-                'display' => 'block'
-            ];
-        }
-
+        $eventos = $this->reservaService->obtenerEventosCalendario($cancha->id);
         return response()->json($eventos);
     }
 }

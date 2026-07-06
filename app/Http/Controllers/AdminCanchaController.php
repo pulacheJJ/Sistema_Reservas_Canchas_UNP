@@ -2,41 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreCanchaRequest;
 use App\Models\Cancha;
+use App\Services\CanchaService;
 
 class AdminCanchaController extends Controller
 {
+    public function __construct(
+        protected CanchaService $canchaService
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $canchas = Cancha::orderBy('created_at', 'desc')->get();
+        $canchas = $this->canchaService->obtenerTodas();
         return view('admin.canchas.index', compact('canchas'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCanchaRequest $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'tipo' => 'required|string|max:255',
-            'ubicacion' => 'required|string|max:255',
-            'imagen' => 'required|url',
-        ]);
+        $this->canchaService->crearCancha(
+            $request->validated(), 
+            $request->file('imagen')
+        );
 
-        Cancha::create([
-            'nombre' => $request->nombre,
-            'tipo' => $request->tipo,
-            'ubicacion' => $request->ubicacion,
-            'imagen' => $request->imagen,
-            'estado' => 'Disponible',
-        ]);
-
-        return back()->with('success', 'Nueva cancha agregada exitosamente.');
+        return redirect()->route('admin.canchas.index')
+            ->with('success', 'Instalación registrada correctamente.');
     }
 
     /**
@@ -44,12 +40,7 @@ class AdminCanchaController extends Controller
      */
     public function toggleEstado(Cancha $cancha)
     {
-        $nuevoEstado = $cancha->estado === 'Disponible' ? 'Mantenimiento' : 'Disponible';
-        
-        $cancha->update([
-            'estado' => $nuevoEstado
-        ]);
-
-        return back()->with('success', 'Estado de la instalación actualizado a: ' . $nuevoEstado);
+        $cancha = $this->canchaService->alternarEstado($cancha);
+        return back()->with('success', 'Estado de la instalación actualizado a: ' . $cancha->estado);
     }
 }

@@ -10,6 +10,9 @@ use App\Http\Controllers\ProfileController;
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
@@ -17,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reservas/inicio', [ReservaController::class, 'inicio'])->name('reservas.inicio');
     Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
     Route::get('/reservas/mis-reservas', [ReservaController::class, 'misReservas'])->name('reservas.mis-reservas');
+    Route::post('/reservas/{reserva}/cancelar', [ReservaController::class, 'cancelar'])->name('reservas.cancelar');
     Route::get('/reservas/calendario', [ReservaController::class, 'calendario'])->name('reservas.calendario');
     
     // API para FullCalendar
@@ -38,6 +42,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/reservas/{reserva}/estado', [AdminController::class, 'actualizarEstadoReserva'])->name('admin.reservas.estado');
     Route::post('/admin/sancionar', [AdminController::class, 'sancionar'])->name('admin.sancionar');
     Route::post('/admin/evento', [AdminController::class, 'crearEvento'])->name('admin.evento.crear');
+
+    // Módulo Reportes Admin
+    Route::get('/admin/reportes', [\App\Http\Controllers\ReporteController::class, 'index'])->name('admin.reportes');
 
     // Módulo Canchas Admin
     Route::get('/admin/canchas', [AdminCanchaController::class, 'index'])->name('admin.canchas.index');

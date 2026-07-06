@@ -18,14 +18,14 @@ class CanchaSeeder extends Seeder
                 'tipo' => 'Fútbol 11 (Césped Natural)',
                 'ubicacion' => 'Campus UNP - Estadio',
                 'estado' => 'Disponible',
-                'imagen' => 'https://images.unsplash.com/photo-1518605368461-1e122b515513?w=500'
+                'imagen' => 'campus-unp.jpg'
             ],
             [
                 'nombre' => 'Canchas Sintéticas',
                 'tipo' => 'Futsal 7 / Futsal 5',
                 'ubicacion' => 'Zona Deportiva',
                 'estado' => 'Disponible',
-                'imagen' => 'https://images.unsplash.com/photo-1551280857-226871a39626?w=500'
+                'imagen' => 'cancha-sintetica.png'
             ],
             [
                 'nombre' => 'Coliseo UNP',
@@ -39,7 +39,7 @@ class CanchaSeeder extends Seeder
                 'tipo' => 'Espacios Múltiples',
                 'ubicacion' => 'Sede Tangara (Externa)',
                 'estado' => 'Disponible',
-                'imagen' => 'https://images.unsplash.com/photo-1526232761682-d26e03ac148e?w=500'
+                'imagen' => 'tangarara.png'
             ],
         ];
 

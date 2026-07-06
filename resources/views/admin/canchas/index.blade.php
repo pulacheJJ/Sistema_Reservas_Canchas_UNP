@@ -24,7 +24,7 @@
         @foreach($canchas as $cancha)
             <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col border border-gray-200">
                 <div class="h-40 w-full bg-gray-200 relative">
-                    <img src="{{ $cancha->imagen }}" alt="{{ $cancha->nombre }}" class="w-full h-full object-cover">
+                    <img src="{{ filter_var($cancha->imagen, FILTER_VALIDATE_URL) ? $cancha->imagen : asset('images/' . $cancha->imagen) }}" alt="{{ $cancha->nombre }}" class="w-full h-full object-cover">
                     <div class="absolute top-3 right-3 px-2 py-1 rounded text-xs font-bold uppercase shadow-sm {{ $cancha->estado === 'Disponible' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                         {{ $cancha->estado }}
                     </div>
@@ -69,8 +69,16 @@
                     <input type="text" name="ubicacion" required class="mt-1 block w-full border-gray-300 rounded-md p-2 border" placeholder="Ej. Campus Principal">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">URL de Imagen</label>
-                    <input type="url" name="imagen" required class="mt-1 block w-full border-gray-300 rounded-md p-2 border" placeholder="https://ejemplo.com/imagen.jpg">
+                    <label class="block text-sm font-medium text-gray-700">Capacidad (Personas)</label>
+                    <input type="number" name="capacidad" min="1" value="10" required class="mt-1 block w-full border-gray-300 rounded-md p-2 border">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Descripción (Opcional)</label>
+                    <textarea name="descripcion" rows="2" class="mt-1 block w-full border-gray-300 rounded-md p-2 border" placeholder="Ej. Cancha de césped natural con iluminación."></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">URL de Imagen o Nombre de Archivo</label>
+                    <input type="text" name="imagen" required class="mt-1 block w-full border-gray-300 rounded-md p-2 border" placeholder="Ej. campus-unp.jpg o https://...">
                 </div>
                 <div class="pt-4">
                     <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 font-medium">Guardar Instalación</button>
