@@ -3,7 +3,7 @@
 @section('title', 'Gestión de Usuarios | UNP')
 
 @section('content')
-    <div class="mb-8 border-b pb-4 flex justify-between items-end">
+    <div class="mb-8 border-b pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
         <div>
             <h2 class="text-3xl font-bold text-gray-800">Gestión de Usuarios</h2>
             <p class="text-gray-600 mt-2">Administra los roles y contraseñas de las cuentas registradas.</p>

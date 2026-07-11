@@ -26,6 +26,7 @@ class AuthController extends Controller
                     $fail('Solo se permiten correos institucionales terminados en @alumnos.unp.edu.pe');
                 }
             }],
+            'telefono' => 'nullable|string|max:20',
             'password' => 'required|string|min:8|confirmed',
         ], [
             'codigo.required' => 'El código institucional es obligatorio.',
@@ -44,6 +45,7 @@ class AuthController extends Controller
             'codigo' => $request->codigo,
             'name' => $request->name,
             'email' => $request->email,
+            'telefono' => $request->telefono,
             'password' => bcrypt($request->password),
             'role' => 'estudiante',
         ]);

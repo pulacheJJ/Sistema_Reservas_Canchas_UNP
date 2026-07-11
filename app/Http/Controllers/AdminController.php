@@ -57,4 +57,40 @@ class AdminController extends Controller
         $this->reservaService->crearEvento($request->validated());
         return back()->with('success', 'La cancha ha sido bloqueada exitosamente para el evento: ' . $request->titulo_evento);
     }
+
+    /**
+     * Bloquea todas las canchas de la universidad en una fecha y rango de horas.
+     */
+    public function bloquearUniversidad(\Illuminate\Http\Request $request)
+    {
+        $data = $request->validate([
+            'fecha' => 'required|date',
+            'hora_inicio' => 'required',
+            'hora_fin' => 'required|after:hora_inicio',
+            'titulo_evento' => 'required|string|max:100',
+        ]);
+
+        $canchas = \App\Models\Cancha::all();
+        $creados = 0;
+
+        foreach ($canchas as $cancha) {
+            \App\Models\Reserva::create([
+                'user_id' => \Illuminate\Support\Facades\Auth::id(),
+                'cancha_id' => $cancha->id,
+                'fecha' => $data['fecha'],
+                'hora_inicio' => $data['hora_inicio'],
+                'hora_fin' => $data['hora_fin'],
+                'estado' => 'Aprobada',
+                'is_evento' => true,
+                'titulo_evento' => 'CERRADO: ' . $data['titulo_evento']
+            ]);
+            $creados++;
+        }
+
+        if ($creados > 0) {
+            return back()->with('success', 'Se ha bloqueado el acceso a todas las ' . $creados . ' canchas para la fecha seleccionada.');
+        }
+
+        return back()->with('error', 'No hay canchas registradas para bloquear.');
+    }
 }

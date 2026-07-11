@@ -51,7 +51,7 @@ class CanchaService
      */
     public function alternarEstado(Cancha $cancha)
     {
-        $nuevoEstado = $cancha->estado === 'Disponible' ? 'En Mantenimiento' : 'Disponible';
+        $nuevoEstado = $cancha->estado === 'Disponible' ? 'Mantenimiento' : 'Disponible';
         $cancha->update(['estado' => $nuevoEstado]);
         
         return $cancha;

@@ -17,8 +17,8 @@ class AdminCanchaController extends Controller
      */
     public function index()
     {
-        $canchas = $this->canchaService->obtenerTodas();
-        return view('admin.canchas.index', compact('canchas'));
+        $canchasAgrupadas = Cancha::all()->groupBy('ubicacion');
+        return view('admin.canchas.index', compact('canchasAgrupadas'));
     }
 
     /**
@@ -42,5 +42,28 @@ class AdminCanchaController extends Controller
     {
         $cancha = $this->canchaService->alternarEstado($cancha);
         return back()->with('success', 'Estado de la instalación actualizado a: ' . $cancha->estado);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(StoreCanchaRequest $request, Cancha $cancha)
+    {
+        $cancha->update($request->validated());
+
+        return redirect()->route('admin.canchas.index')
+            ->with('success', 'Instalación actualizada correctamente.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Cancha $cancha)
+    {
+        // Verificar si tiene reservas antes de eliminar (opcional, por ahora lo forzamos)
+        $cancha->delete();
+
+        return redirect()->route('admin.canchas.index')
+            ->with('success', 'Instalación eliminada correctamente.');
     }
 }

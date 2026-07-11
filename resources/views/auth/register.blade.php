@@ -123,6 +123,17 @@
                         </label>
                     </div>
 
+                    <!-- Campo Teléfono -->
+                    <div class="relative">
+                        <input type="tel" id="telefono" name="telefono" placeholder=" "
+                            class="input-floating block w-full px-4 pt-6 pb-2 text-slate-900 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none"
+                            value="{{ old('telefono') }}">
+                        <label for="telefono" class="absolute left-4 top-4 text-slate-400 text-sm transition-all pointer-events-none font-medium">
+                            Número de WhatsApp (Opcional)
+                        </label>
+                        <p class="text-[10px] text-slate-400 mt-1 pl-2">Necesario para recibir los comprobantes de reserva.</p>
+                    </div>
+
                     <!-- Campo Contraseña -->
                     <div class="relative">
                         <input type="password" id="password" name="password" required placeholder=" "

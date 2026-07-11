@@ -3,84 +3,108 @@
 @section('title', 'Calendario | UNP')
 
 @push('styles')
-    <!-- FullCalendar CSS CDN -->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+    <style>
+        /* Personalización de FullCalendar para adaptarlo a la estética Premium */
+        .fc-theme-standard .fc-scrollgrid { border: none !important; }
+        .fc-theme-standard td, .fc-theme-standard th { border-color: #f1f5f9 !important; }
+        .fc-col-header-cell-cushion { padding: 12px 8px !important; color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
+        .fc-daygrid-day-number { font-weight: 600; color: #334155; padding: 8px !important; }
+        .fc .fc-button-primary { background-color: #fff !important; color: #334155 !important; border: 1px solid #e2e8f0 !important; font-weight: 600; text-transform: capitalize; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        .fc .fc-button-primary:hover { background-color: #f8fafc !important; border-color: #cbd5e1 !important; color: #2563eb !important; }
+        .fc .fc-button-primary:not(:disabled):active, .fc .fc-button-primary:not(:disabled).fc-button-active { background-color: #eff6ff !important; border-color: #bfdbfe !important; color: #1d4ed8 !important; }
+        .fc .fc-toolbar-title { font-weight: 800; color: #1e293b; font-size: 1.5rem; text-transform: capitalize; }
+        .fc-event { border: none !important; padding: 2px 4px; border-radius: 4px; font-weight: 600; font-size: 0.75rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .fc-day-today { background-color: #f0fdf4 !important; }
+    </style>
 @endpush
 
 @section('content')
-    <div class="mb-6 border-b pb-4">
-        <h2 class="text-3xl font-bold text-gray-800">Calendario de Ocupabilidad</h2>
-        <p class="text-gray-600 mt-2">Revisa qué horarios están ocupados antes de hacer tu reserva.</p>
+    <div class="mb-8 border-b border-slate-200 pb-4">
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Calendario General</h2>
+        <p class="text-slate-500 mt-2 font-medium">Visualiza los horarios ocupados de todas las instalaciones antes de reservar.</p>
     </div>
 
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <!-- Selector de Cancha -->
-        <div class="mb-6 flex items-center gap-4">
-            <label for="cancha-selector" class="font-medium text-gray-700">Ver horarios de:</label>
-            <select id="cancha-selector" class="border-gray-300 rounded-md shadow-sm focus:border-blue-800 focus:ring-blue-800 p-2 border min-w-[250px]">
-                <option value="" disabled selected>Selecciona una cancha...</option>
-                @foreach($canchas as $cancha)
-                    <option value="{{ $cancha->id }}">{{ $cancha->nombre }} - {{ $cancha->ubicacion }}</option>
-                @endforeach
-            </select>
-        </div>
+    <!-- Filtros de Cancha -->
+    <div class="mb-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <label for="filtroCancha" class="block text-sm font-bold text-slate-700 mb-3">Filtrar por Instalación Deportiva:</label>
+        <select id="filtroCancha" class="mt-1 block w-full pl-3 pr-10 py-3 text-base border-slate-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-xl bg-slate-50 border transition-colors">
+            <option value="todas">🎯 Todas las Instalaciones</option>
+            @foreach($canchas as $cancha)
+                <option value="{{ $cancha->id }}">{{ $cancha->nombre }} ({{ $cancha->ubicacion }})</option>
+            @endforeach
+        </select>
+    </div>
 
-        <!-- Contenedor del Calendario -->
-        <div id='calendar-container' class="hidden transition-opacity duration-300">
-            <div id='calendar' class="min-h-[600px]"></div>
-        </div>
-
-        <div id="calendar-placeholder" class="py-20 text-center text-gray-400 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
-            <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            <p>Selecciona una cancha en el menú desplegable para ver su disponibilidad.</p>
+    <!-- Contenedor del Calendario -->
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="p-4 md:p-8">
+            <div id='calendar' class="w-full"></div>
         </div>
     </div>
 @endsection
 
 @push('scripts')
-    <!-- FullCalendar JS CDN -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.js'></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
-            var selector = document.getElementById('cancha-selector');
-            var container = document.getElementById('calendar-container');
-            var placeholder = document.getElementById('calendar-placeholder');
+            var selectCancha = document.getElementById('filtroCancha');
+            
+            // Pasar los datos de PHP a JS de forma segura
+            var allEvents = @json($eventos);
             
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'timeGridWeek',
+                initialView: 'dayGridMonth',
                 locale: 'es',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                slotMinTime: '06:00:00',
-                slotMaxTime: '23:00:00',
-                allDaySlot: false,
-                height: 700,
-                events: [] // Se cargará dinámicamente
+                buttonText: {
+                    today: 'Hoy',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Día'
+                },
+                events: allEvents,
+                eventTimeFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: false,
+                    hour12: false
+                },
+                displayEventEnd: true,
+                dayMaxEvents: true, // Allow "more" link when too many events
+                eventDidMount: function(info) {
+                    // Estilizar según el estado si lo tiene
+                    if (info.event.extendedProps.estado === 'Aprobada') {
+                        info.el.style.backgroundColor = '#10b981'; // emerald-500
+                    } else if (info.event.extendedProps.estado === 'Pendiente') {
+                        info.el.style.backgroundColor = '#f59e0b'; // amber-500
+                    } else {
+                        // Color base para eventos si no tienen estado (ej. de DB)
+                        info.el.style.backgroundColor = '#3b82f6'; // blue-500
+                    }
+                }
             });
-
+            
             calendar.render();
 
-            selector.addEventListener('change', function() {
+            // Filtrado
+            selectCancha.addEventListener('change', function() {
                 var canchaId = this.value;
-                if(canchaId) {
-                    placeholder.classList.add('hidden');
-                    container.classList.remove('hidden');
-                    
-                    // Remover fuente anterior y agregar la nueva desde la API
-                    calendar.removeAllEventSources();
-                    calendar.addEventSource('/api/canchas/' + canchaId + '/horarios');
-                    
-                    // Forzar re-renderizado
-                    setTimeout(() => {
-                        calendar.updateSize();
-                    }, 100);
-                }
+                
+                var filteredEvents = allEvents.filter(function(event) {
+                    if (canchaId === 'todas') return true;
+                    // Aseguramos que comparamos strings o enteros correctamente
+                    return event.cancha_id == canchaId;
+                });
+                
+                calendar.removeAllEvents();
+                calendar.addEventSource(filteredEvents);
             });
         });
     </script>

@@ -3,15 +3,20 @@
     <link rel="stylesheet" href="{{ asset('css/layouts/sidebar.css') }}">
 @endpush
 
-<aside id="sidebar-principal" class="w-64 bg-blue-900 text-white flex flex-col shadow-xl flex-shrink-0 z-20 transition-all duration-300">
-    <div class="p-6 border-b border-blue-800 flex items-center gap-3">
-        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md p-1.5 flex-shrink-0">
-            <img src="{{ asset('images/logo-unp.png') }}" alt="UNP" class="w-full h-full object-contain drop-shadow-sm">
+<aside id="sidebar-principal" class="w-64 bg-blue-900 text-white flex flex-col shadow-xl flex-shrink-0 z-40 transition-transform duration-300 fixed md:relative h-full transform" :class="{'translate-x-0': sidebarOpen, '-translate-x-full md:translate-x-0': !sidebarOpen}">
+    <div class="p-6 border-b border-blue-800 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md p-1.5 flex-shrink-0">
+                <img src="{{ asset('images/logo-unp.png') }}" alt="UNP" class="w-full h-full object-contain drop-shadow-sm">
+            </div>
+            <div>
+                <h1 class="text-xl font-bold tracking-wide">Deportes</h1>
+                <p class="text-[10px] text-blue-300 uppercase tracking-widest mt-0.5">Sistema Web</p>
+            </div>
         </div>
-        <div>
-            <h1 class="text-xl font-bold tracking-wide">Deportes</h1>
-            <p class="text-[10px] text-blue-300 uppercase tracking-widest mt-0.5">Sistema Web</p>
-        </div>
+        <button @click="sidebarOpen = false" class="md:hidden text-blue-300 hover:text-white transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
     </div>
 
     @php
@@ -68,80 +73,6 @@
             </a>
         @endif
     </nav>
-
-    <div class="p-4 border-t border-blue-800 bg-blue-950/50">
-        <div class="flex items-center justify-between w-full">
-            <div class="flex items-center gap-3 overflow-hidden">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 border border-blue-400/30 flex items-center justify-center font-bold text-sm shadow-inner uppercase flex-shrink-0">
-                    {{ $iniciales }}
-                </div>
-                <div class="overflow-hidden flex-1">
-                    <p class="text-[13px] font-bold text-white truncate" title="{{ $usuario->name }}">{{ $usuario->name }}</p>
-                    <p class="text-[10px] text-blue-300 truncate uppercase tracking-wider mt-0.5">
-                        @if($usuario->isAdmin())
-                            <span class="text-yellow-400 font-bold">Admin</span>
-                        @else
-                            Estudiante
-                        @endif
-                    </p>
-                </div>
-            </div>
-            
-            <div class="flex items-center gap-0.5 flex-shrink-0">
-                <!-- Campanita de notificaciones -->
-                <div class="relative group">
-                    <button class="text-blue-200 hover:text-white hover:bg-blue-800 transition-colors p-1.5 rounded-lg" title="Notificaciones">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                        @if($usuario->unreadNotifications->count() > 0)
-                            <span class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/4 bg-red-500 rounded-full shadow-sm border border-white">
-                                {{ $usuario->unreadNotifications->count() }}
-                            </span>
-                        @endif
-                    </button>
-                    <!-- Dropdown de notificaciones -->
-                    <div class="absolute bottom-0 left-full ml-4 w-64 bg-white rounded-lg shadow-2xl border border-gray-200 hidden group-hover:block z-50 overflow-hidden origin-bottom-left">
-                        <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-3 py-2 text-[11px] font-bold text-white flex justify-between items-center">
-                            <span>Notificaciones</span>
-                            <span class="bg-white/20 px-1.5 py-0.5 rounded-full">{{ $usuario->unreadNotifications->count() }} nuevas</span>
-                        </div>
-                        <div class="max-h-48 overflow-y-auto">
-                            @forelse($usuario->unreadNotifications as $notification)
-                                <div class="px-3 py-2 border-b text-[12px] text-gray-800 hover:bg-blue-50 transition-colors border-l-4 border-blue-500 leading-tight">
-                                    {{ $notification->data['mensaje'] }}
-                                </div>
-                            @empty
-                                <div class="px-3 py-4 text-[11px] text-gray-500 text-center flex flex-col items-center gap-1">
-                                    <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                                    No hay notificaciones
-                                </div>
-                            @endforelse
-                        </div>
-                        @if($usuario->unreadNotifications->count() > 0)
-                            <form action="{{ route('notificaciones.leer') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="w-full text-center text-[11px] text-blue-600 font-bold py-2 hover:bg-blue-50 transition-colors bg-gray-50">
-                                    Marcar todas como leídas
-                                </button>
-                            </form>
-                        @endif
-                    </div>
-                </div>
-
-                <!-- Perfil -->
-                <a href="{{ route('perfil.index') }}" class="text-blue-200 hover:text-white hover:bg-blue-800 transition-colors p-1.5 rounded-lg" title="Mi Perfil">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                </a>
-            </div>
-        </div>
-        
-        <form method="POST" action="{{ route('logout') }}" class="mt-5 w-full">
-            @csrf
-            <button type="submit" id="btn-logout" class="w-full flex items-center justify-center gap-2 text-sm text-red-200 bg-red-500/10 hover:text-white hover:bg-red-500 transition-all duration-200 py-2.5 rounded-lg font-medium border border-red-500/20 hover:border-red-500 hover:shadow-lg">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                Cerrar Sesión
-            </button>
-        </form>
-    </div>
 </aside>
 
 {{-- Inyección de JS específico del componente --}}
