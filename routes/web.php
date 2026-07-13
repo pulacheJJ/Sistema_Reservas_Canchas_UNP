@@ -11,6 +11,18 @@ use App\Http\Controllers\ProfileController;
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
+Route::get('/diagnostico-https', function () {
+    return response()->json([
+        'environment' => app()->environment(),
+        'app_url' => config('app.url'),
+        'secure' => request()->secure(),
+        'scheme' => request()->getScheme(),
+        'forwarded_proto' => request()->header('x-forwarded-proto'),
+        'login_url' => route('login.post'),
+        'asset_url' => asset('images/logo-unp.png'),
+    ]);
+});
+
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
