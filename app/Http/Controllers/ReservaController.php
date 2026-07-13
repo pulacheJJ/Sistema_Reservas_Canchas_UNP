@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reserva;
 use App\Http\Requests\StoreReservaRequest;
 use App\Models\Cancha;
 use App\Services\CanchaService;
@@ -21,8 +22,8 @@ class ReservaController extends Controller
      */
     public function inicio()
     {
-        $canchas = $this->canchaService->obtenerTodas();
-        return view('alumno.inicio', compact('canchas'));
+        $canchasAgrupadas = $this->canchaService->obtenerTodas()->groupBy('ubicacion');
+        return view('alumno.inicio', compact('canchasAgrupadas'));
     }
 
     /**
@@ -33,7 +34,7 @@ class ReservaController extends Controller
         try {
             $this->reservaService->crearReserva($request->validated());
 
-            return redirect()->route('reservas.inicio')->with('success', 'Tu reserva ha sido registrada y está en estado Pendiente.');
+            return redirect()->route('reservas.inicio')->with('success', 'Tu reserva ha sido registrada exitosamente.');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -58,13 +59,36 @@ class ReservaController extends Controller
         return view('alumno.mis-reservas', compact('reservas'));
     }
 
-    /**
-     * Muestra la vista del calendario general de reservas.
-     */
     public function calendario()
     {
         $canchas = $this->canchaService->obtenerDisponibles();
-        return view('alumno.calendario', compact('canchas'));
+        
+        // Obtener todos los eventos para mostrarlos inicialmente en el calendario general
+        $reservasAprobadas = \App\Models\Reserva::whereIn('estado', ['Aprobada', 'Pendiente'])->get();
+        
+        $eventos = [];
+        foreach ($reservasAprobadas as $reserva) {
+            $color = '#3b82f6';
+            if ($reserva->is_evento) {
+                $color = '#7c3aed';
+            } elseif ($reserva->estado === 'Aprobada') {
+                $color = '#10b981';
+            } elseif ($reserva->estado === 'Pendiente') {
+                $color = '#f59e0b';
+            }
+            
+            $eventos[] = [
+                'cancha_id' => $reserva->cancha_id,
+                'title' => $reserva->is_evento ? '🏅 ' . $reserva->titulo_evento : 'Reserva ' . $reserva->estado,
+                'start' => $reserva->fecha . 'T' . $reserva->hora_inicio,
+                'end' => $reserva->fecha . 'T' . $reserva->hora_fin,
+                'color' => $color,
+                'estado' => $reserva->estado,
+                'display' => 'block'
+            ];
+        }
+
+        return view('alumno.calendario', compact('canchas', 'eventos'));
     }
 
     /**

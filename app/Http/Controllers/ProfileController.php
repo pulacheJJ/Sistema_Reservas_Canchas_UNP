@@ -19,14 +19,16 @@ class ProfileController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'telefono' => 'nullable|string|max:20',
             'current_password' => 'nullable|required_with:password',
             'password' => 'nullable|min:8|confirmed',
         ]);
 
         $user = Auth::user();
 
-        // Actualizar nombre
+        // Actualizar datos
         $user->name = $request->name;
+        $user->telefono = $request->telefono;
 
         // Actualizar contraseña si se proporcionó una
         if ($request->filled('password')) {

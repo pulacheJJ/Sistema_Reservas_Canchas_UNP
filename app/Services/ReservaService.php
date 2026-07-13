@@ -20,6 +20,16 @@ class ReservaService
     {
         $userId = Auth::id();
 
+        // Si es un administrador y proporciona un código de estudiante, la reserva es para el estudiante
+        if (Auth::user()->isAdmin() && !empty($data['codigo_estudiante'])) {
+            $estudiante = User::where('codigo', $data['codigo_estudiante'])->first();
+            if ($estudiante) {
+                $userId = $estudiante->id;
+            } else {
+                throw new Exception('El código de estudiante proporcionado no existe.');
+            }
+        }
+
         // Verificar si el usuario está sancionado
         $sancionActiva = Sancion::where('user_id', $userId)
             ->where('fecha_fin', '>=', now())
@@ -27,6 +37,15 @@ class ReservaService
 
         if ($sancionActiva) {
             throw new Exception('No puedes realizar reservas porque tienes una sanción activa hasta el ' . Carbon::parse($sancionActiva->fecha_fin)->format('d/m/Y') . '. Motivo: ' . $sancionActiva->motivo);
+        }
+
+        // Verificar límite de 1 reserva creada por día en la vida real
+        $reservaCreadaHoy = Reserva::where('user_id', $userId)
+            ->whereDate('created_at', now()->toDateString())
+            ->exists();
+
+        if ($reservaCreadaHoy) {
+            throw new Exception('Límite alcanzado: Solo puedes registrar una nueva reserva por día.');
         }
 
         // Verificar superposición de horarios (Cancha ocupada o con reserva pendiente)
@@ -43,14 +62,19 @@ class ReservaService
             throw new Exception('La cancha ya se encuentra reservada o tiene una solicitud en proceso para este horario.');
         }
 
-        return Reserva::create([
+        $reserva = Reserva::create([
             'user_id' => $userId,
             'cancha_id' => $data['cancha_id'],
             'fecha' => $data['fecha'],
             'hora_inicio' => $data['hora_inicio'],
             'hora_fin' => $data['hora_fin'],
-            'estado' => 'Pendiente',
+            'estado' => 'Aprobada', // Aprobación automática
         ]);
+
+        // Disparar el trabajo en segundo plano para generar PDF y enviar WhatsApp
+        \App\Jobs\SendWhatsAppTicket::dispatch($reserva);
+
+        return $reserva;
     }
 
     /**

@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reservas/inicio', [ReservaController::class, 'inicio'])->name('reservas.inicio');
     Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
     Route::get('/reservas/mis-reservas', [ReservaController::class, 'misReservas'])->name('reservas.mis-reservas');
-    Route::post('/reservas/{reserva}/cancelar', [ReservaController::class, 'cancelar'])->name('reservas.cancelar');
+    Route::patch('/reservas/{reserva}/cancelar', [ReservaController::class, 'cancelar'])->name('reservas.cancelar');
     Route::get('/reservas/calendario', [ReservaController::class, 'calendario'])->name('reservas.calendario');
     
     // API para FullCalendar
@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/reservas/{reserva}/estado', [AdminController::class, 'actualizarEstadoReserva'])->name('admin.reservas.estado');
     Route::post('/admin/sancionar', [AdminController::class, 'sancionar'])->name('admin.sancionar');
     Route::post('/admin/evento', [AdminController::class, 'crearEvento'])->name('admin.evento.crear');
+    Route::post('/admin/evento/global', [AdminController::class, 'bloquearUniversidad'])->name('admin.evento.global');
 
     // Módulo Reportes Admin
     Route::get('/admin/reportes', [\App\Http\Controllers\ReporteController::class, 'index'])->name('admin.reportes');
@@ -62,6 +63,8 @@ Route::middleware(['auth'])->group(function () {
     // Módulo Canchas Admin
     Route::get('/admin/canchas', [AdminCanchaController::class, 'index'])->name('admin.canchas.index');
     Route::post('/admin/canchas', [AdminCanchaController::class, 'store'])->name('admin.canchas.store');
+    Route::put('/admin/canchas/{cancha}', [AdminCanchaController::class, 'update'])->name('admin.canchas.update');
+    Route::delete('/admin/canchas/{cancha}', [AdminCanchaController::class, 'destroy'])->name('admin.canchas.destroy');
     Route::post('/admin/canchas/{cancha}/estado', [AdminCanchaController::class, 'toggleEstado'])->name('admin.canchas.estado');
 
     // Módulo Usuarios Admin
