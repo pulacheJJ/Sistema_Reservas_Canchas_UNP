@@ -81,7 +81,7 @@
     </div>
 
     <!-- Modal de Bloqueo General -->
-    <div id="modal-bloqueo" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 transition-opacity p-4">
+    <div id="modal-bloqueo" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 transition-opacity p-4">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 md:p-8 transform transition-all scale-95 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b pb-4 mb-6">
                 <h3 class="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
