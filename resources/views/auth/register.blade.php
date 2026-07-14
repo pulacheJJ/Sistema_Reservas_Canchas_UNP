@@ -4,23 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro | Reservas Deportivas UNP</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Outfit', sans-serif; }
-        
-        .bg-left-panel {
-            background-image: url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .input-floating:focus + label,
-        .input-floating:not(:placeholder-shown) + label {
-            transform: translateY(-1.5rem) scale(0.85);
-            color: #2563eb;
-        }
-    </style>
 </head>
 <body class="min-h-screen flex bg-slate-50">
     
@@ -72,7 +57,7 @@
                 <p class="text-xs font-bold text-red-500">* Solo se permiten correos @alumnos.unp.edu.pe</p>
             </div>
 
-            <form method="POST" action="{{ route('register.post') }}" class="space-y-6">
+            <form method="POST" action="{{ route('register.post') }}" class="space-y-6" x-data="{ password: '', password_confirmation: '' }">
                 @csrf
 
                 @if($errors->any())
@@ -136,18 +121,30 @@
 
                     <!-- Campo Contraseña -->
                     <div class="relative">
-                        <input type="password" id="password" name="password" required placeholder=" "
-                            class="input-floating block w-full px-4 pt-6 pb-2 text-slate-900 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none">
-                        <label for="password" class="absolute left-4 top-4 text-slate-400 text-sm transition-all pointer-events-none font-medium">
+                        <div class="flex justify-between items-end mb-1 px-1">
+                            <span class="text-xs font-semibold text-slate-500">Mínimo 8 caracteres</span>
+                            <span x-show="password.length > 0 && password.length < 8" x-transition class="text-xs font-bold text-red-500">Demasiado corta</span>
+                            <span x-show="password.length >= 8" x-transition class="text-xs font-bold text-emerald-500">Longitud válida ✓</span>
+                        </div>
+                        <input type="password" id="password" name="password" required placeholder=" " x-model="password"
+                            class="input-floating block w-full px-4 pt-6 pb-2 text-slate-900 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none"
+                            :class="{'border-red-400 focus:ring-red-500 focus:border-red-500': password.length > 0 && password.length < 8, 'border-emerald-400 focus:ring-emerald-500 focus:border-emerald-500': password.length >= 8}">
+                        <label for="password" class="absolute left-4 top-10 text-slate-400 text-sm transition-all pointer-events-none font-medium" :class="{'text-red-500': password.length > 0 && password.length < 8, 'text-emerald-500': password.length >= 8}">
                             Contraseña
                         </label>
                     </div>
                     
                     <!-- Campo Confirmar Contraseña -->
                     <div class="relative">
-                        <input type="password" id="password_confirmation" name="password_confirmation" required placeholder=" "
-                            class="input-floating block w-full px-4 pt-6 pb-2 text-slate-900 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none">
-                        <label for="password_confirmation" class="absolute left-4 top-4 text-slate-400 text-sm transition-all pointer-events-none font-medium">
+                        <div class="flex justify-between items-end mb-1 px-1">
+                            <span class="text-xs font-semibold text-slate-500">Confirmación</span>
+                            <span x-show="password_confirmation.length > 0 && password !== password_confirmation" x-transition class="text-xs font-bold text-red-500">Las contraseñas no coinciden</span>
+                            <span x-show="password_confirmation.length > 0 && password === password_confirmation && password.length >= 8" x-transition class="text-xs font-bold text-emerald-500">Coinciden ✓</span>
+                        </div>
+                        <input type="password" id="password_confirmation" name="password_confirmation" required placeholder=" " x-model="password_confirmation"
+                            class="input-floating block w-full px-4 pt-6 pb-2 text-slate-900 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none"
+                            :class="{'border-red-400 focus:ring-red-500 focus:border-red-500': password_confirmation.length > 0 && password !== password_confirmation, 'border-emerald-400 focus:ring-emerald-500 focus:border-emerald-500': password_confirmation.length > 0 && password === password_confirmation && password.length >= 8}">
+                        <label for="password_confirmation" class="absolute left-4 top-10 text-slate-400 text-sm transition-all pointer-events-none font-medium" :class="{'text-red-500': password_confirmation.length > 0 && password !== password_confirmation, 'text-emerald-500': password_confirmation.length > 0 && password === password_confirmation && password.length >= 8}">
                             Confirmar Contraseña
                         </label>
                     </div>

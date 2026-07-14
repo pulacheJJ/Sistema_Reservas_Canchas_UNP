@@ -15,7 +15,7 @@
     </div>
 
     <!-- Modal Crear Evento -->
-    <div id="modal-evento" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+    <div id="modal-evento" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6">
             <div class="flex justify-between items-center border-b pb-3 mb-4">
                 <h3 class="text-xl font-bold text-gray-800">Registrar Evento / Torneo</h3>
@@ -127,7 +127,7 @@
                                             </button>
                                             
                                             <!-- Modal Sancionar -->
-                                            <div id="modal-sancion-{{ $reserva->id }}" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+                                            <div id="modal-sancion-{{ $reserva->id }}" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
                                                 <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 text-left whitespace-normal max-h-[90vh] overflow-y-auto">
                                                     <div class="flex justify-between items-center border-b pb-3 mb-4">
                                                         <h3 class="text-xl font-bold text-gray-800">Sancionar Alumno</h3>

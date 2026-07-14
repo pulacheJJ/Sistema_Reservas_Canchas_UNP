@@ -49,7 +49,20 @@ class AdminCanchaController extends Controller
      */
     public function update(StoreCanchaRequest $request, Cancha $cancha)
     {
-        $cancha->update($request->validated());
+        $data = $request->validated();
+        
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->file('imagen');
+            if (env('CLOUDINARY_URL')) {
+                $data['imagen'] = $imagen->storeOnCloudinary('canchas_unp')->getSecurePath();
+            } else {
+                $nombreImagen = time() . '.' . $imagen->extension();
+                $imagen->move(public_path('images'), $nombreImagen);
+                $data['imagen'] = $nombreImagen;
+            }
+        }
+
+        $cancha->update($data);
 
         return redirect()->route('admin.canchas.index')
             ->with('success', 'Instalación actualizada correctamente.');

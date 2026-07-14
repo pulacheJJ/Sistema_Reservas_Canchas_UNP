@@ -4,41 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión | Deportes UNP</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Outfit', sans-serif; }
-        
-        /* Efecto Glassmorphism */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-
-        /* Campos flotantes */
-        .input-floating:focus + label,
-        .input-floating:not(:placeholder-shown) + label {
-            transform: translateY(-1.5rem) scale(0.85);
-            color: #2563eb;
-        }
-
-        /* Animación sutil de fondo */
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
-        
-        .blob-1 { animation: float 8s ease-in-out infinite; }
-        .blob-2 { animation: float 10s ease-in-out infinite reverse; }
-        .blob-3 { animation: float 12s ease-in-out infinite; }
-    </style>
 </head>
-<body x-data="{ showForgotModal: false }" class="min-h-screen relative flex items-center justify-center overflow-hidden bg-slate-900">
+<body x-data="{ showForgotModal: false, showPassword: false }" class="min-h-screen relative flex items-center justify-center overflow-hidden bg-slate-900">
     
     <!-- Fondo dinámico (Imagen con overlay) -->
     <div class="absolute inset-0 z-0">
@@ -112,20 +81,25 @@
                     <!-- Campo Código -->
                     <div class="relative group">
                         <input type="text" id="codigo" name="codigo" required autofocus placeholder=" "
-                            class="input-floating block w-full px-4 pt-6 pb-2 text-slate-900 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none group-hover:border-blue-300"
+                            class="input-floating block w-full px-4 pt-6 pb-2 text-slate-900 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none group-hover:border-blue-400 shadow-sm"
                             value="{{ old('codigo') }}">
-                        <label for="codigo" class="absolute left-4 top-4 text-slate-400 text-sm transition-all pointer-events-none font-medium">
+                        <label for="codigo" class="absolute left-4 top-4 text-slate-500 text-sm transition-all pointer-events-none font-semibold">
                             Código Institucional
                         </label>
                     </div>
 
                     <!-- Campo Contraseña -->
                     <div class="relative group">
-                        <input type="password" id="password" name="password" required placeholder=" "
-                            class="input-floating block w-full px-4 pt-6 pb-2 text-slate-900 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none group-hover:border-blue-300">
-                        <label for="password" class="absolute left-4 top-4 text-slate-400 text-sm transition-all pointer-events-none font-medium">
+                        <input :type="showPassword ? 'text' : 'password'" id="password" name="password" required placeholder=" "
+                            class="input-floating block w-full pl-4 pr-12 pt-6 pb-2 text-slate-900 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none group-hover:border-blue-400 shadow-sm">
+                        <label for="password" class="absolute left-4 top-4 text-slate-500 text-sm transition-all pointer-events-none font-semibold">
                             Contraseña
                         </label>
+                        <!-- Botón Mostrar/Ocultar -->
+                        <button type="button" @click="showPassword = !showPassword" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 focus:outline-none transition-colors">
+                            <svg x-show="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            <svg x-show="showPassword" style="display: none;" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.05 10.05 0 015.458-5.925M21.542 12a10.04 10.04 0 01-2.925 3.925M15 12a3 3 0 01-3 3M3 3l18 18"></path></svg>
+                        </button>
                     </div>
                 </div>
 

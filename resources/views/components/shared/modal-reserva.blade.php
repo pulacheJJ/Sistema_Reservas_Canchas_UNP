@@ -1,4 +1,4 @@
-<div id="modal-reserva" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 transition-opacity p-4">
+<div id="modal-reserva" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 transition-opacity p-4">
     <div class="bg-white rounded-xl shadow-2xl w-full max-w-5xl p-6 transform transition-all scale-95 max-h-[90vh] overflow-y-auto" id="modal-content">
         <div class="flex justify-between items-center border-b pb-3 mb-4">
             <h3 class="text-xl font-bold text-gray-800">Configurar Reserva</h3>

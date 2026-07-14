@@ -23,7 +23,7 @@ class StoreCanchaRequest extends FormRequest
             'capacidad' => 'required|integer|min:1',
             'ubicacion' => 'required|string|max:255',
             'estado' => 'nullable|in:Disponible,Mantenimiento',
-            'imagen' => 'required|string',
+            'imagen' => $this->isMethod('post') ? 'required|image|max:5120' : 'nullable|image|max:5120',
         ];
     }
 }

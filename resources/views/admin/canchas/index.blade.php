@@ -79,14 +79,14 @@
                         </div>
 
                         <!-- Modal Editar Cancha -->
-                        <div id="modal-edit-{{ $cancha->id }}" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+                        <div id="modal-edit-{{ $cancha->id }}" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
                             <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
                                 <div class="flex justify-between items-center border-b pb-3 mb-4">
                                     <h3 class="text-xl font-bold text-gray-800">Editar Instalación</h3>
                                     <button onclick="document.getElementById('modal-edit-{{ $cancha->id }}').classList.add('hidden')" class="text-gray-400 hover:text-red-500 text-2xl leading-none">&times;</button>
                                 </div>
                                 
-                                <form action="{{ route('admin.canchas.update', $cancha->id) }}" method="POST" class="space-y-4">
+                                <form action="{{ route('admin.canchas.update', $cancha->id) }}" method="POST" class="space-y-4" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div>
@@ -110,8 +110,8 @@
                                         <textarea name="descripcion" rows="2" class="mt-1 block w-full border-gray-300 rounded-md p-2 border">{{ $cancha->descripcion }}</textarea>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700">URL de Imagen o Nombre de Archivo</label>
-                                        <input type="text" name="imagen" value="{{ $cancha->imagen }}" required class="mt-1 block w-full border-gray-300 rounded-md p-2 border">
+                                        <label class="block text-sm font-medium text-gray-700">Imagen de la Cancha (Dejar en blanco para mantener actual)</label>
+                                        <input type="file" name="imagen" accept="image/*" class="mt-1 block w-full border-gray-300 rounded-md p-2 border">
                                     </div>
                                     <div class="pt-4">
                                         <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 font-medium">Actualizar Instalación</button>
@@ -121,7 +121,7 @@
                         </div>
 
                         <!-- Modal Confirmar Eliminación -->
-                        <div id="modal-delete-{{ $cancha->id }}" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[60]">
+                        <div id="modal-delete-{{ $cancha->id }}" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-[60]">
                             <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 text-center">
                                 <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
                                     <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -156,14 +156,14 @@
     @endif
 
     <!-- Modal Agregar Cancha -->
-    <div id="modal-cancha" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+    <div id="modal-cancha" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b pb-3 mb-4">
                 <h3 class="text-xl font-bold text-gray-800">Nueva Instalación</h3>
                 <button onclick="document.getElementById('modal-cancha').classList.add('hidden')" class="text-gray-400 hover:text-red-500 text-2xl leading-none">&times;</button>
             </div>
             
-            <form action="{{ route('admin.canchas.store') }}" method="POST" class="space-y-4">
+            <form action="{{ route('admin.canchas.store') }}" method="POST" class="space-y-4" enctype="multipart/form-data">
                 @csrf
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Nombre</label>
@@ -186,8 +186,8 @@
                     <textarea name="descripcion" rows="2" class="mt-1 block w-full border-gray-300 rounded-md p-2 border" placeholder="Ej. Cancha de césped natural con iluminación."></textarea>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">URL de Imagen o Nombre de Archivo</label>
-                    <input type="text" name="imagen" required class="mt-1 block w-full border-gray-300 rounded-md p-2 border" placeholder="Ej. campus-unp.jpg o https://...">
+                    <label class="block text-sm font-medium text-gray-700">Imagen de la Cancha</label>
+                    <input type="file" name="imagen" accept="image/*" required class="mt-1 block w-full border-gray-300 rounded-md p-2 border">
                 </div>
                 <div class="pt-4">
                     <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 font-medium">Guardar Instalación</button>

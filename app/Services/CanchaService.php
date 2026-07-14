@@ -31,8 +31,12 @@ class CanchaService
         $nombreImagen = $data['imagen'] ?? 'default-cancha.jpg';
 
         if ($imagen) {
-            $nombreImagen = time() . '.' . $imagen->extension();
-            $imagen->move(public_path('images'), $nombreImagen);
+            if (env('CLOUDINARY_URL')) {
+                $nombreImagen = $imagen->storeOnCloudinary('canchas_unp')->getSecurePath();
+            } else {
+                $nombreImagen = time() . '.' . $imagen->extension();
+                $imagen->move(public_path('images'), $nombreImagen);
+            }
         }
 
         return Cancha::create([
