@@ -17,9 +17,10 @@ mkdir -p \
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
 
-# Limpiar cachés
+# Optimizar cachés para producción (y exponer variables de entorno a Apache)
 php artisan optimize:clear
-
+php artisan config:cache
+php artisan view:cache
 echo "Esperando conexión con la base de datos..."
 
 MAX_RETRIES=30

@@ -53,7 +53,7 @@ class AdminCanchaController extends Controller
         
         if ($request->hasFile('imagen')) {
             $imagen = $request->file('imagen');
-            if (config('services.cloudinary.url')) {
+            if (config('cloudinary.cloud_url')) {
                 $data['imagen'] = $imagen->storeOnCloudinary('canchas_unp')->getSecurePath();
             } else {
                 $nombreImagen = time() . '.' . $imagen->extension();

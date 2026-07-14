@@ -21,10 +21,6 @@ return [
         'scheme' => 'https',
     ],
 
-    'cloudinary' => [
-        'url' => env('CLOUDINARY_URL'),
-    ],
-
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
