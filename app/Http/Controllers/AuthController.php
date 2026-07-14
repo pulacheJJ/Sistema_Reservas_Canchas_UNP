@@ -21,9 +21,15 @@ class AuthController extends Controller
         $request->validate([
             'codigo' => 'required|string|max:20|unique:users',
             'name' => 'required|string|max:255',
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users', function ($attribute, $value, $fail) {
-                if (!str_ends_with($value, '@alumnos.unp.edu.pe')) {
-                    $fail('Solo se permiten correos institucionales terminados en @alumnos.unp.edu.pe');
+            'role' => 'required|in:estudiante,docente,administrativo',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users', function ($attribute, $value, $fail) use ($request) {
+                $role = $request->input('role');
+                if ($role === 'estudiante' && !str_ends_with($value, '@alumnos.unp.edu.pe')) {
+                    $fail('Los estudiantes deben usar un correo que termine en @alumnos.unp.edu.pe');
+                } elseif ($role === 'docente' && !str_ends_with($value, '@unpdocente.edu.pe')) {
+                    $fail('Los docentes deben usar un correo que termine en @unpdocente.edu.pe');
+                } elseif ($role === 'administrativo' && !str_ends_with($value, '@unp.edu.pe')) {
+                    $fail('El personal administrativo debe usar un correo que termine en @unp.edu.pe');
                 }
             }],
             'telefono' => 'nullable|string|max:20',
@@ -33,6 +39,8 @@ class AuthController extends Controller
             'codigo.unique' => 'Este código institucional ya está registrado.',
             'name.required' => 'El nombre es obligatorio.',
             'name.max' => 'El nombre es demasiado largo.',
+            'role.required' => 'Debe seleccionar un tipo de usuario.',
+            'role.in' => 'El tipo de usuario no es válido.',
             'email.required' => 'El correo es obligatorio.',
             'email.email' => 'El formato del correo no es válido.',
             'email.unique' => 'Este correo ya se encuentra registrado.',
@@ -47,7 +55,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'telefono' => $request->telefono,
             'password' => bcrypt($request->password),
-            'role' => 'estudiante',
+            'role' => $request->role,
         ]);
 
         \Illuminate\Support\Facades\Auth::login($user);
