@@ -31,7 +31,7 @@ class CanchaService
         $nombreImagen = $data['imagen'] ?? 'default-cancha.jpg';
 
         if ($imagen) {
-            if (env('CLOUDINARY_URL')) {
+            if (config('services.cloudinary.url')) {
                 $nombreImagen = $imagen->storeOnCloudinary('canchas_unp')->getSecurePath();
             } else {
                 $nombreImagen = time() . '.' . $imagen->extension();
