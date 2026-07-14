@@ -54,10 +54,9 @@
             <div class="mb-10 text-center lg:text-left">
                 <h2 class="text-3xl font-extrabold text-slate-900 mb-3 tracking-tight">Crear una cuenta</h2>
                 <p class="text-slate-500 font-medium mb-1">Ingresa tus datos para registrarte en el sistema.</p>
-                <p class="text-xs font-bold text-red-500">* Solo se permiten correos @alumnos.unp.edu.pe</p>
             </div>
 
-            <form method="POST" action="{{ route('register.post') }}" class="space-y-6" x-data="{ password: '', password_confirmation: '' }">
+            <form method="POST" action="{{ route('register.post') }}" class="space-y-6" x-data="{ password: '', password_confirmation: '', selectedRole: 'estudiante' }">
                 @csrf
 
                 @if($errors->any())
@@ -77,14 +76,43 @@
                 @endif
 
                 <div class="space-y-5">
-                    
+                    <!-- Selector de Rol (Tarjetas Premium) -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-3">¿A qué grupo perteneces?</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="role" value="estudiante" x-model="selectedRole" class="peer sr-only">
+                                <div class="rounded-xl border-2 border-slate-100 bg-slate-50 p-2 text-center hover:bg-slate-100 peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-800 transition-all flex flex-col items-center justify-center gap-1 shadow-sm h-full">
+                                    <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"></path><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
+                                    <span class="block text-xs font-bold leading-tight">Estudiante</span>
+                                </div>
+                            </label>
+                            
+                            <label class="cursor-pointer">
+                                <input type="radio" name="role" value="docente" x-model="selectedRole" class="peer sr-only">
+                                <div class="rounded-xl border-2 border-slate-100 bg-slate-50 p-2 text-center hover:bg-slate-100 peer-checked:border-purple-600 peer-checked:bg-purple-50 peer-checked:text-purple-800 transition-all flex flex-col items-center justify-center gap-1 shadow-sm h-full">
+                                    <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    <span class="block text-xs font-bold leading-tight">Docente</span>
+                                </div>
+                            </label>
+
+                            <label class="cursor-pointer">
+                                <input type="radio" name="role" value="administrativo" x-model="selectedRole" class="peer sr-only">
+                                <div class="rounded-xl border-2 border-slate-100 bg-slate-50 p-2 text-center hover:bg-slate-100 peer-checked:border-orange-500 peer-checked:bg-orange-50 peer-checked:text-orange-800 transition-all flex flex-col items-center justify-center gap-1 shadow-sm h-full">
+                                    <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                    <span class="block text-xs font-bold leading-tight">Administrativo</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
                     <!-- Campo Codigo -->
                     <div class="relative">
                         <input type="text" id="codigo" name="codigo" required autofocus placeholder=" "
                             class="input-floating block w-full px-4 pt-6 pb-2 text-slate-900 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none"
                             value="{{ old('codigo') }}">
                         <label for="codigo" class="absolute left-4 top-4 text-slate-400 text-sm transition-all pointer-events-none font-medium">
-                            Código Institucional
+                            Código / DNI
                         </label>
                     </div>
 
@@ -106,6 +134,13 @@
                         <label for="email" class="absolute left-4 top-4 text-slate-400 text-sm transition-all pointer-events-none font-medium">
                             Correo Institucional
                         </label>
+                        <!-- Mensaje dinámico de correo según rol -->
+                        <div class="mt-1 pl-2 flex items-center gap-1 transition-all">
+                            <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span x-show="selectedRole === 'estudiante'" class="text-[11px] font-semibold text-blue-600">Debe terminar en @alumnos.unp.edu.pe</span>
+                            <span x-show="selectedRole === 'docente'" class="text-[11px] font-semibold text-purple-600" style="display: none;">Debe terminar en @unpdocente.edu.pe</span>
+                            <span x-show="selectedRole === 'administrativo'" class="text-[11px] font-semibold text-orange-600" style="display: none;">Debe terminar en @unp.edu.pe</span>
+                        </div>
                     </div>
 
                     <!-- Campo Teléfono -->
@@ -151,7 +186,7 @@
                 </div>
 
                 <button type="submit"
-                    class="w-full flex justify-center items-center gap-2 py-4 px-4 rounded-xl text-sm font-bold text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-900/30 transition-all shadow-[0_10px_20px_-10px_rgba(30,58,138,0.5)] transform hover:-translate-y-0.5 mt-4">
+                    class="w-full flex justify-center items-center gap-2 py-3 px-4 rounded-xl text-base font-bold text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-900/30 transition-all shadow-[0_10px_20px_-10px_rgba(30,58,138,0.5)] transform hover:-translate-y-0.5 mt-4">
                     <span>Registrarse</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                 </button>

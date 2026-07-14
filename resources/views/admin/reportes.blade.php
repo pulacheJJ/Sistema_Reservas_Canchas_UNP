@@ -84,39 +84,28 @@
 
 <style>
     @media print {
-        body { background-color: white; }
+        @page { size: landscape; margin: 10mm; }
+        body { background-color: white !important; }
         .print\:hidden { display: none !important; }
+        aside, nav, header { display: none !important; }
+        main { margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; }
         .shadow-sm { box-shadow: none !important; }
         .border { border: 1px solid #e5e7eb !important; }
-        aside { display: none !important; }
-        main { margin-left: 0 !important; padding: 0 !important; }
+        #reporte-pdf-content { background: white !important; padding: 0 !important; margin: 0 !important; width: 100% !important; }
+        .bg-white { background-color: white !important; }
+        /* Forzar que los gráficos impriman sus colores */
+        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     }
 </style>
 @endsection
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
     function exportarPDF() {
-        const btn = document.getElementById('btn-export');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = 'Generando PDF...';
-        btn.disabled = true;
-
-        const element = document.getElementById('reporte-pdf-content');
-        const opt = {
-            margin:       0.5,
-            filename:     'Reporte-Estadisticas-UNP.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
-        };
-
-        html2pdf().set(opt).from(element).save().then(() => {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        });
+        // Usamos el motor de PDF nativo del navegador (Print to PDF)
+        // Es 100% más rápido, no se cuelga y genera PDFs vectoriales (no imágenes borrosas)
+        window.print();
     }
     document.addEventListener('DOMContentLoaded', function() {
         // Datos inyectados desde Laravel

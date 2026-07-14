@@ -33,13 +33,9 @@ class SendWhatsAppTicket implements ShouldQueue
     public function handle(WhatsAppService $whatsAppService): void
     {
         try {
-            // 1. Generar PDF usando la vista (lo guardamos por si queremos descargarlo después desde el panel)
-            $pdf = Pdf::loadView('tickets.reserva', ['reserva' => $this->reserva]);
-            
-            $filename = 'ticket_reserva_' . $this->reserva->id . '.pdf';
-            $path = 'public/tickets/' . $filename;
-            
-            Storage::put($path, $pdf->output());
+            // 1. Validar PDF (Opcional si quisiéramos mandarlo por wp)
+            // Ya no lo guardamos en disco para evitar que Render lo borre.
+            // Se genera en tiempo real desde la ruta web.
 
             // 2. Enviar vía WhatsApp (Solo texto para evitar error de localhost)
             $telefono = $this->reserva->user->telefono ?? env('WHATSAPP_TEST_NUMBER');

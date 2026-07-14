@@ -93,4 +93,13 @@ class AdminController extends Controller
 
         return back()->with('error', 'No hay canchas registradas para bloquear.');
     }
+
+    /**
+     * Genera y descarga el ticket PDF en tiempo real.
+     */
+    public function descargarTicket(Reserva $reserva)
+    {
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('tickets.reserva', compact('reserva'));
+        return $pdf->stream('ticket_reserva_' . $reserva->id . '.pdf');
+    }
 }

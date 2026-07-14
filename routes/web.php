@@ -56,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/sancionar', [AdminController::class, 'sancionar'])->name('admin.sancionar');
     Route::post('/admin/evento', [AdminController::class, 'crearEvento'])->name('admin.evento.crear');
     Route::post('/admin/evento/global', [AdminController::class, 'bloquearUniversidad'])->name('admin.evento.global');
+    Route::get('/admin/reservas/{reserva}/ticket', [AdminController::class, 'descargarTicket'])->name('admin.reservas.ticket');
 
     // Módulo Reportes Admin
     Route::get('/admin/reportes', [\App\Http\Controllers\ReporteController::class, 'index'])->name('admin.reportes');

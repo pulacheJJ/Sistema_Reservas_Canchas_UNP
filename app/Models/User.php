@@ -63,6 +63,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if user is a teacher.
+     */
+    public function isDocente(): bool
+    {
+        return $this->role === 'docente';
+    }
+
+    /**
+     * Check if user is an administrative staff.
+     */
+    public function isAdministrativo(): bool
+    {
+        return $this->role === 'administrativo';
+    }
+
+    /**
      * Get the reservations for the user.
      */
     public function reservas()
