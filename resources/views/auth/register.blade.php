@@ -40,19 +40,19 @@
     </div>
 
     <!-- LADO DERECHO: Formulario Blanco Limpio -->
-    <div class="w-full lg:w-7/12 flex flex-col justify-center items-center px-6 sm:px-12 md:px-24 relative bg-white overflow-y-auto py-12">
+    <div class="w-full lg:w-7/12 flex flex-col justify-center items-center px-4 sm:px-8 md:px-16 xl:px-24 relative bg-white overflow-y-auto py-6 sm:py-12">
         
         <div class="w-full max-w-md">
             
-            <div class="lg:hidden flex items-center gap-3 mb-10">
-                <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg p-1">
+            <div class="lg:hidden flex items-center gap-3 mb-6 sm:mb-10">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-xl flex items-center justify-center shadow-lg p-1">
                     <img src="{{ asset('images/logo-unp.png') }}" alt="UNP" class="w-full h-full object-contain drop-shadow-md">
                 </div>
-                <span class="font-bold text-2xl tracking-widest uppercase text-slate-800">Deportes</span>
+                <span class="font-bold text-xl sm:text-2xl tracking-widest uppercase text-slate-800">Deportes</span>
             </div>
 
-            <div class="mb-10 text-center lg:text-left">
-                <h2 class="text-3xl font-extrabold text-slate-900 mb-3 tracking-tight">Crear una cuenta</h2>
+            <div class="mb-6 sm:mb-10 text-center lg:text-left">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3 tracking-tight">Crear una cuenta</h2>
                 <p class="text-slate-500 font-medium mb-1">Ingresa tus datos para registrarte en el sistema.</p>
             </div>
 
@@ -79,7 +79,7 @@
                     <!-- Selector de Rol (Tarjetas Premium) -->
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-3">¿A qué grupo perteneces?</label>
-                        <div class="grid grid-cols-3 gap-2">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                             <label class="cursor-pointer">
                                 <input type="radio" name="role" value="estudiante" x-model="selectedRole" class="peer sr-only">
                                 <div class="rounded-xl border-2 border-slate-100 bg-slate-50 p-2 text-center hover:bg-slate-100 peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-800 transition-all flex flex-col items-center justify-center gap-1 shadow-sm h-full">
@@ -109,11 +109,15 @@
                     <!-- Campo Codigo -->
                     <div class="relative">
                         <input type="text" id="codigo" name="codigo" required autofocus placeholder=" "
+                            minlength="8" maxlength="10" pattern="(?:[0-9]{8}|[A-Za-z0-9]{10})"
+                            title="Ingresa un DNI de 8 dígitos o un código universitario de 10 caracteres"
+                            oninput="this.value = this.value.replace(/[^A-Za-z0-9]/g, '').slice(0, 10)"
                             class="input-floating block w-full px-4 pt-6 pb-2 text-slate-900 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none"
                             value="{{ old('codigo') }}">
                         <label for="codigo" class="absolute left-4 top-4 text-slate-400 text-sm transition-all pointer-events-none font-medium">
                             Código / DNI
                         </label>
+                        <p class="text-[10px] text-slate-400 mt-1 pl-2">DNI: 8 dígitos. Código universitario: 10 caracteres.</p>
                     </div>
 
                     <!-- Campo Nombre -->
@@ -138,7 +142,7 @@
                         <div class="mt-1 pl-2 flex items-center gap-1 transition-all">
                             <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <span x-show="selectedRole === 'estudiante'" class="text-[11px] font-semibold text-blue-600">Debe terminar en @alumnos.unp.edu.pe</span>
-                            <span x-show="selectedRole === 'docente'" class="text-[11px] font-semibold text-purple-600" style="display: none;">Debe terminar en @unpdocente.edu.pe</span>
+                            <span x-show="selectedRole === 'docente'" class="text-[11px] font-semibold text-purple-600" style="display: none;">Debe terminar en @unp.edu.pe</span>
                             <span x-show="selectedRole === 'administrativo'" class="text-[11px] font-semibold text-orange-600" style="display: none;">Debe terminar en @unp.edu.pe</span>
                         </div>
                     </div>
@@ -146,12 +150,15 @@
                     <!-- Campo Teléfono -->
                     <div class="relative">
                         <input type="tel" id="telefono" name="telefono" placeholder=" "
+                            inputmode="numeric" minlength="9" maxlength="9" pattern="[0-9]{9}"
+                            title="Ingresa exactamente 9 dígitos"
+                            oninput="this.value = this.value.replace(/\D/g, '').slice(0, 9)"
                             class="input-floating block w-full px-4 pt-6 pb-2 text-slate-900 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none"
                             value="{{ old('telefono') }}">
                         <label for="telefono" class="absolute left-4 top-4 text-slate-400 text-sm transition-all pointer-events-none font-medium">
                             Número de WhatsApp (Opcional)
                         </label>
-                        <p class="text-[10px] text-slate-400 mt-1 pl-2">Necesario para recibir los comprobantes de reserva.</p>
+                        <p class="text-[10px] text-slate-400 mt-1 pl-2">Opcional. Debe contener exactamente 9 dígitos.</p>
                     </div>
 
                     <!-- Campo Contraseña -->

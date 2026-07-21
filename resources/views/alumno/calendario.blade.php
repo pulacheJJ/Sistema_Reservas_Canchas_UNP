@@ -20,13 +20,13 @@
 @endpush
 
 @section('content')
-    <div class="mb-8 border-b border-slate-200 pb-4">
-        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Calendario General</h2>
+    <div class="mb-6 sm:mb-8 border-b border-slate-200 pb-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Calendario General</h2>
         <p class="text-slate-500 mt-2 font-medium">Visualiza los horarios ocupados de todas las instalaciones antes de reservar.</p>
     </div>
 
     <!-- Filtros de Cancha -->
-    <div class="mb-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+    <div class="mb-6 sm:mb-8 bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
         <label for="filtroCancha" class="block text-sm font-bold text-slate-700 mb-3">Filtrar por Instalación Deportiva:</label>
         <select id="filtroCancha" class="mt-1 block w-full pl-3 pr-10 py-3 text-base border-slate-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-xl bg-slate-50 border transition-colors">
             <option value="todas">🎯 Todas las Instalaciones</option>
@@ -38,7 +38,7 @@
 
     <!-- Contenedor del Calendario -->
     <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="p-4 md:p-8">
+        <div class="p-2 sm:p-4 md:p-8 overflow-x-auto touch-scroll">
             <div id='calendar' class="w-full"></div>
         </div>
     </div>
@@ -56,12 +56,12 @@
             var allEvents = @json($eventos);
             
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
+                initialView: window.innerWidth < 640 ? 'listWeek' : 'dayGridMonth',
                 locale: 'es',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    right: window.innerWidth < 640 ? 'listWeek,dayGridMonth' : 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 buttonText: {
                     today: 'Hoy',

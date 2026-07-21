@@ -3,15 +3,15 @@
 @section('title', 'Panel de Administración | UNP')
 
 @section('content')
-    <div class="mb-10 pb-6 border-b border-slate-200">
-        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Dashboard General</h2>
+    <div class="mb-6 sm:mb-10 pb-4 sm:pb-6 border-b border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Dashboard General</h2>
         <p class="text-slate-500 mt-2 font-medium">Bienvenido, {{ Auth::user()->name }}. Resumen rápido del estado del sistema.</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
         
         <!-- Tarjeta Canchas -->
-        <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-100 p-8 flex flex-col items-center text-center transform hover:-translate-y-1.5 transition-all duration-300 group">
+        <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-100 p-5 sm:p-8 flex flex-col items-center text-center transform hover:-translate-y-1.5 transition-all duration-300 group">
             <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -28,7 +28,7 @@
         </div>
 
         <!-- Tarjeta Reservas -->
-        <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-100 p-8 flex flex-col items-center text-center transform hover:-translate-y-1.5 transition-all duration-300 group">
+        <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-100 p-5 sm:p-8 flex flex-col items-center text-center transform hover:-translate-y-1.5 transition-all duration-300 group">
             <div class="w-20 h-20 bg-gradient-to-br from-emerald-400 to-emerald-600 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-emerald-500/30 group-hover:scale-110 transition-transform duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -45,7 +45,7 @@
         </div>
 
         <!-- Tarjeta Usuarios -->
-        <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-100 p-8 flex flex-col items-center text-center transform hover:-translate-y-1.5 transition-all duration-300 group">
+        <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-100 p-5 sm:p-8 flex flex-col items-center text-center transform hover:-translate-y-1.5 transition-all duration-300 group">
             <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-700 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30 group-hover:scale-110 transition-transform duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -62,7 +62,7 @@
         </div>
 
         <!-- Tarjeta Cierres Generales -->
-        <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-100 p-8 flex flex-col items-center text-center transform hover:-translate-y-1.5 transition-all duration-300 group">
+        <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-100 p-5 sm:p-8 flex flex-col items-center text-center transform hover:-translate-y-1.5 transition-all duration-300 group">
             <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-red-700 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-red-500/30 group-hover:scale-110 transition-transform duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -81,10 +81,10 @@
     </div>
 
     <!-- Modal de Bloqueo General -->
-    <div id="modal-bloqueo" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 transition-opacity p-4">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 md:p-8 transform transition-all scale-95 max-h-[90vh] overflow-y-auto">
+    <div id="modal-bloqueo" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 transition-opacity p-2 sm:p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-4 sm:p-6 md:p-8 transform transition-all scale-95 max-h-[calc(100dvh-1rem)] sm:max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b pb-4 mb-6">
-                <h3 class="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
+                <h3 class="text-lg sm:text-2xl font-extrabold text-slate-800 flex items-center gap-2">
                     <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                     Bloqueo de Universidad
                 </h3>
@@ -107,12 +107,12 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label for="hora_inicio_bloqueo" class="block text-sm font-bold text-slate-700 mb-1">Desde las</label>
-                        <input type="time" id="hora_inicio_bloqueo" name="hora_inicio" required value="06:00"
+                        <input type="time" id="hora_inicio_bloqueo" name="hora_inicio" required value="09:00" min="09:00" max="21:00" step="3600"
                             class="block w-full border-slate-300 rounded-xl shadow-sm focus:border-red-500 focus:ring-red-500 px-4 py-3 border text-slate-900 bg-slate-50">
                     </div>
                     <div>
                         <label for="hora_fin_bloqueo" class="block text-sm font-bold text-slate-700 mb-1">Hasta las</label>
-                        <input type="time" id="hora_fin_bloqueo" name="hora_fin" required value="23:00"
+                        <input type="time" id="hora_fin_bloqueo" name="hora_fin" required value="22:00" min="10:00" max="22:00" step="3600"
                             class="block w-full border-slate-300 rounded-xl shadow-sm focus:border-red-500 focus:ring-red-500 px-4 py-3 border text-slate-900 bg-slate-50">
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                         class="block w-full border-slate-300 rounded-xl shadow-sm focus:border-red-500 focus:ring-red-500 px-4 py-3 border text-slate-900 bg-slate-50">
                 </div>
 
-                <div class="pt-4 flex gap-3">
+                <div class="pt-4 flex flex-col-reverse sm:flex-row gap-3">
                     <button type="button" onclick="document.getElementById('modal-bloqueo').classList.add('hidden')" class="flex-1 bg-white border border-slate-300 text-slate-700 py-3 rounded-xl hover:bg-slate-50 transition-colors font-bold shadow-sm">Cancelar</button>
                     <button type="submit" class="flex-1 bg-red-600 text-white py-3 rounded-xl hover:bg-red-700 transition-colors shadow-lg shadow-red-500/30 font-bold flex justify-center items-center gap-2">
                         <span>Aplicar Bloqueo</span>

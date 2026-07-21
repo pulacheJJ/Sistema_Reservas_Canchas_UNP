@@ -5,7 +5,7 @@
 @section('content')
     <div class="mb-8 border-b pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
         <div>
-            <h2 class="text-3xl font-bold text-gray-800">Gestión de Usuarios</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Gestión de Usuarios</h2>
             <p class="text-gray-600 mt-2">Administra los roles y contraseñas de las cuentas registradas.</p>
         </div>
     </div>
@@ -23,8 +23,9 @@
     @endif
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+        <p class="md:hidden px-4 pt-3 text-xs font-medium text-gray-500">Desliza horizontalmente para administrar todos los campos.</p>
+        <div class="overflow-x-auto touch-scroll">
+            <table class="min-w-[900px] w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-gray-50 border-b border-gray-100 text-gray-600 text-sm">
                         <th class="p-4 font-semibold">ID</th>

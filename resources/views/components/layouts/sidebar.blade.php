@@ -3,8 +3,8 @@
     <link rel="stylesheet" href="{{ asset('css/layouts/sidebar.css') }}">
 @endpush
 
-<aside id="sidebar-principal" class="w-64 bg-blue-900 text-white flex flex-col shadow-xl flex-shrink-0 z-40 transition-transform duration-300 fixed md:relative h-full transform" :class="{'translate-x-0': sidebarOpen, '-translate-x-full md:translate-x-0': !sidebarOpen}">
-    <div class="p-6 border-b border-blue-800 flex items-center justify-between gap-3">
+<aside id="sidebar-principal" class="w-[min(16rem,86vw)] md:w-64 bg-blue-900 text-white flex flex-col shadow-xl flex-shrink-0 z-40 transition-transform duration-300 fixed md:relative h-full transform" :class="{'translate-x-0': sidebarOpen, '-translate-x-full md:translate-x-0': !sidebarOpen}">
+    <div class="p-4 sm:p-6 border-b border-blue-800 flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
             <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md p-1.5 flex-shrink-0">
                 <img src="{{ asset('images/logo-unp.png') }}" alt="UNP" class="w-full h-full object-contain drop-shadow-sm">
@@ -25,7 +25,7 @@
         $iniciales = strtoupper(substr($usuario->name, 0, 2));
     @endphp
 
-    <nav class="sidebar-nav flex-1 p-4 space-y-2 overflow-y-auto">
+    <nav @click="if ($event.target.closest('a')) sidebarOpen = false" class="sidebar-nav flex-1 p-3 sm:p-4 space-y-2 overflow-y-auto">
         
         <div class="text-xs font-semibold text-blue-400 uppercase tracking-wider mb-3 mt-2 px-2">Portal Estudiantil</div>
         

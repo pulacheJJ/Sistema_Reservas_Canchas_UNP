@@ -65,8 +65,8 @@ class AdminController extends Controller
     {
         $data = $request->validate([
             'fecha' => 'required|date',
-            'hora_inicio' => 'required',
-            'hora_fin' => 'required|after:hora_inicio',
+            'hora_inicio' => ['required', 'date_format:H:i', 'regex:/^(?:09|1[0-9]|2[01]):00$/'],
+            'hora_fin' => ['required', 'date_format:H:i', 'after:hora_inicio', 'regex:/^(?:1[0-9]|2[0-2]):00$/'],
             'titulo_evento' => 'required|string|max:100',
         ]);
 
@@ -74,7 +74,7 @@ class AdminController extends Controller
         $creados = 0;
 
         foreach ($canchas as $cancha) {
-            \App\Models\Reserva::create([
+            Reserva::create([
                 'user_id' => \Illuminate\Support\Facades\Auth::id(),
                 'cancha_id' => $cancha->id,
                 'fecha' => $data['fecha'],

@@ -10,14 +10,14 @@
 @section('content')
     <!-- Alertas Modernas -->
     @if(session('success'))
-        <div class="mb-6 bg-emerald-50/80 backdrop-blur border border-emerald-200 text-emerald-700 px-6 py-4 rounded-xl flex items-start gap-3 shadow-sm transform transition-all" role="alert">
+        <div class="mb-6 bg-emerald-50/80 backdrop-blur border border-emerald-200 text-emerald-700 px-4 sm:px-6 py-4 rounded-xl flex items-start gap-3 shadow-sm transform transition-all" role="alert">
             <svg class="w-6 h-6 flex-shrink-0 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <span class="block sm:inline font-medium text-sm mt-0.5">{{ session('success') }}</span>
         </div>
     @endif
 
     @if(session('error') || $errors->any())
-        <div class="mb-6 bg-red-50/80 backdrop-blur border border-red-200 text-red-700 px-6 py-4 rounded-xl flex items-start gap-3 shadow-sm transform transition-all" role="alert">
+        <div class="mb-6 bg-red-50/80 backdrop-blur border border-red-200 text-red-700 px-4 sm:px-6 py-4 rounded-xl flex items-start gap-3 shadow-sm transform transition-all" role="alert">
             <svg class="w-6 h-6 flex-shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <div class="mt-0.5">
                 @if(session('error'))
@@ -34,9 +34,9 @@
         </div>
     @endif
 
-    <div class="mb-10 pb-6 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="mb-6 sm:mb-10 pb-4 sm:pb-6 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-            <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Canchas Disponibles</h2>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Canchas Disponibles</h2>
             <p class="text-slate-500 mt-2 font-medium">Selecciona la instalación y el horario que deseas utilizar para tu reserva.</p>
         </div>
     </div>
@@ -45,11 +45,11 @@
         <div x-data="{ tab: '{{ array_key_first($canchasAgrupadas->toArray()) }}' }">
             
             <!-- Navegación de Pestañas (Pills) -->
-            <div class="flex mb-8 space-x-3 overflow-x-auto no-scrollbar pb-2">
+            <div class="touch-scroll flex mb-6 sm:mb-8 space-x-3 overflow-x-auto no-scrollbar pb-2 snap-x">
                 @foreach($canchasAgrupadas as $ubicacion => $canchas)
                     <button @click="tab = '{{ $ubicacion }}'" 
                             :class="tab === '{{ $ubicacion }}' ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200'"
-                            class="whitespace-nowrap px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300">
+                            class="snap-start whitespace-nowrap px-5 sm:px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300">
                         {{ $ubicacion }}
                     </button>
                 @endforeach
@@ -62,7 +62,7 @@
                          x-transition:enter="transition ease-out duration-300" 
                          x-transition:enter-start="opacity-0 transform translate-y-4" 
                          x-transition:enter-end="opacity-100 transform translate-y-0" 
-                         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8" 
+                         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
                          style="display: none;">
                         @foreach($canchas as $cancha)
                             @include('components.shared.tarjeta-cancha', [

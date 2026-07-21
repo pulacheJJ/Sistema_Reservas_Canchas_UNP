@@ -5,7 +5,7 @@
 @section('content')
     <div class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b pb-4">
         <div>
-            <h2 class="text-3xl font-bold text-gray-800">Control de Reservas</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Control de Reservas</h2>
             <p class="text-gray-600 mt-2">Aprueba, rechaza o bloquea fechas por eventos especiales.</p>
         </div>
         <button onclick="document.getElementById('modal-evento').classList.remove('hidden')" class="w-full sm:w-auto justify-center bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md shadow-sm font-medium flex items-center gap-2 transition-colors">
@@ -15,8 +15,8 @@
     </div>
 
     <!-- Modal Crear Evento -->
-    <div id="modal-evento" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6">
+    <div id="modal-evento" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-2 sm:p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-4 sm:p-6 max-h-[calc(100dvh-1rem)] overflow-y-auto">
             <div class="flex justify-between items-center border-b pb-3 mb-4">
                 <h3 class="text-xl font-bold text-gray-800">Registrar Evento / Torneo</h3>
                 <button onclick="document.getElementById('modal-evento').classList.add('hidden')" class="text-gray-400 hover:text-red-500 text-2xl leading-none">&times;</button>
@@ -53,8 +53,9 @@
     @endif
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
+        <p class="md:hidden px-4 pt-3 text-xs font-medium text-gray-500">Desliza horizontalmente para ver todas las acciones.</p>
+        <div class="overflow-x-auto touch-scroll">
+            <table class="min-w-[980px] xl:min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Solicitante</th>
@@ -128,7 +129,7 @@
                                             
                                             <!-- Modal Sancionar -->
                                             <div id="modal-sancion-{{ $reserva->id }}" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-                                                <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 text-left whitespace-normal max-h-[90vh] overflow-y-auto">
+                                                <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-4 sm:p-6 text-left whitespace-normal max-h-[calc(100dvh-2rem)] overflow-y-auto">
                                                     <div class="flex justify-between items-center border-b pb-3 mb-4">
                                                         <h3 class="text-xl font-bold text-gray-800">Sancionar Alumno</h3>
                                                         <button onclick="document.getElementById('modal-sancion-{{ $reserva->id }}').classList.add('hidden')" class="text-gray-400 hover:text-red-500 text-2xl leading-none">&times;</button>

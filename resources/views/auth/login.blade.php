@@ -7,7 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body x-data="{ showForgotModal: false, showPassword: false }" class="min-h-screen relative flex items-center justify-center overflow-hidden bg-slate-900">
+<body x-data="{ showForgotModal: false, showPassword: false }" class="min-h-screen relative flex items-center justify-center overflow-x-hidden overflow-y-auto bg-slate-900 p-3 sm:p-6">
     
     <!-- Fondo dinámico (Imagen con overlay) -->
     <div class="absolute inset-0 z-0">
@@ -21,7 +21,7 @@
     <div class="absolute top-1/2 left-1/4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 blob-3 z-0"></div>
 
     <!-- Contenedor Principal (Glassmorphism) -->
-    <div class="relative z-10 w-full max-w-[1000px] flex flex-col md:flex-row glass-card rounded-2xl md:rounded-3xl overflow-hidden mx-4">
+    <div class="relative z-10 w-full max-w-[1000px] flex flex-col md:flex-row glass-card rounded-2xl md:rounded-3xl overflow-hidden my-auto">
         
         <!-- Lado Izquierdo (Branding) -->
         <div class="w-full md:w-5/12 bg-gradient-to-br from-blue-600 to-blue-800 p-10 flex flex-col justify-between text-white relative overflow-hidden hidden md:flex">
@@ -52,7 +52,7 @@
         </div>
 
         <!-- Lado Derecho (Formulario) -->
-        <div class="w-full md:w-7/12 p-8 md:p-12 lg:p-16 bg-white/90">
+        <div class="w-full md:w-7/12 p-5 sm:p-8 md:p-10 lg:p-16 bg-white/90">
             
             <!-- Logo Móvil -->
             <div class="md:hidden flex items-center gap-3 mb-8">
@@ -62,8 +62,8 @@
                 <span class="font-bold text-xl tracking-widest uppercase text-slate-800">Deportes</span>
             </div>
 
-            <div class="mb-10 text-center md:text-left">
-                <h2 class="text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">Bienvenido</h2>
+            <div class="mb-6 sm:mb-10 text-center md:text-left">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">Bienvenido</h2>
                 <p class="text-slate-500 font-medium">Ingresa tus credenciales para continuar.</p>
             </div>
 
@@ -71,9 +71,17 @@
                 @csrf
 
                 @if($errors->has('loginError'))
-                    <div class="bg-red-50/80 backdrop-blur border border-red-200 text-red-700 px-4 py-3 rounded-xl flex items-start gap-3 shadow-sm mb-6 transform transition-all animate-[bounce_0.5s_ease-in-out]" role="alert">
+                    <div class="{{ session('loginBlocked') ? 'bg-amber-50/90 border-amber-300 text-amber-800' : 'bg-red-50/80 border-red-200 text-red-700' }} backdrop-blur border px-4 py-3 rounded-xl flex items-start gap-3 shadow-sm mb-6 transform transition-all animate-[bounce_0.5s_ease-in-out]" role="alert">
                         <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span class="block sm:inline font-medium text-sm">{{ $errors->first('loginError') }}</span>
+                        <div class="text-sm">
+                            @if(session('loginBlocked'))
+                                <p class="font-bold">Acceso temporalmente bloqueado</p>
+                            @endif
+                            <p class="font-medium">{{ $errors->first('loginError') }}</p>
+                            @if(session()->has('attemptsRemaining'))
+                                <p class="mt-1 font-bold">{{ session('attemptsRemaining') === 1 ? 'Te queda 1 intento.' : 'Te quedan ' . session('attemptsRemaining') . ' intentos.' }}</p>
+                            @endif
+                        </div>
                     </div>
                 @endif
 
@@ -103,7 +111,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between pt-2">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
                     <div class="flex items-center">
                         <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-600 transition-colors cursor-pointer accent-blue-600">
                         <label for="remember-me" class="ml-2 block text-sm text-slate-600 font-medium cursor-pointer select-none">
@@ -149,7 +157,7 @@
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="opacity-100 scale-100"
              x-transition:leave-end="opacity-0 scale-90"
-             class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 text-center z-10">
+             class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm p-4 sm:p-6 text-center z-10 max-h-[calc(100dvh-2rem)] overflow-y-auto">
              
             <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-6">
                 <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

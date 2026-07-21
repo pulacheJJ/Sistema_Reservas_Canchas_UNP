@@ -3,8 +3,8 @@
 @section('title', 'Mis Reservas | UNP')
 
 @section('content')
-    <div class="mb-8 border-b border-slate-200 pb-4">
-        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Historial de Reservas</h2>
+    <div class="mb-6 sm:mb-8 border-b border-slate-200 pb-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Historial de Reservas</h2>
         <p class="text-slate-500 mt-2 font-medium">Revisa el estado de tus solicitudes de canchas e instalaciones deportivas.</p>
     </div>
 
@@ -25,8 +25,9 @@
 
     <!-- Tabla Data-Grid -->
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-slate-200">
+        <p class="md:hidden px-4 pt-3 text-xs font-medium text-slate-500">Desliza horizontalmente para ver todos los detalles.</p>
+        <div class="overflow-x-auto touch-scroll">
+            <table class="min-w-[760px] lg:min-w-full divide-y divide-slate-200">
                 <thead class="bg-slate-50/50">
                     <tr>
                         <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Cancha / Sede</th>
@@ -128,7 +129,7 @@
 
     <!-- Modal de Cancelación -->
     <div id="cancelModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 transition-opacity p-4">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 transform transition-all p-6 md:p-8 max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all p-4 sm:p-6 md:p-8 max-h-[calc(100dvh-2rem)] overflow-y-auto">
             <!-- Icono de advertencia -->
             <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-6 shadow-inner">
                 <svg class="h-8 w-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

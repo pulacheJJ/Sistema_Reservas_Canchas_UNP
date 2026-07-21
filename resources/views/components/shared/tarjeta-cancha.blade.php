@@ -8,7 +8,7 @@
 
 <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl overflow-hidden flex flex-col border border-slate-100 transition-all duration-300 transform hover:-translate-y-2 group">
     <!-- Image Header -->
-    <div class="h-52 w-full bg-slate-200 relative overflow-hidden">
+    <div class="h-44 sm:h-52 w-full bg-slate-200 relative overflow-hidden">
         <img src="{{ filter_var($imagen, FILTER_VALIDATE_URL) ? $imagen : asset('images/' . $imagen) }}" alt="{{ $nombre }}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-in-out">
         
         <!-- Overlay Gradient for better text readability if needed -->
@@ -21,9 +21,9 @@
     </div>
     
     <!-- Content Body -->
-    <div class="p-6 flex-1 flex flex-col relative bg-white">
+    <div class="p-4 sm:p-6 flex-1 flex flex-col relative bg-white">
         <!-- Floating Tipo Badge -->
-        <div class="absolute -top-4 left-6">
+        <div class="absolute -top-4 left-4 sm:left-6">
             <span class="inline-block bg-blue-50 text-blue-700 border border-blue-200 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
                 {{ $tipo }}
             </span>

@@ -1,9 +1,17 @@
 @import "tailwindcss";
 
 @layer base {
+  html {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     font-family: 'Outfit', sans-serif;
+    max-width: 100%;
   }
+
+  input, select, textarea, button { min-width: 0; }
 }
 
 @layer components {
@@ -48,4 +56,37 @@
   .blob-1 { animation: float 8s ease-in-out infinite; }
   .blob-2 { animation: float 10s ease-in-out infinite reverse; }
   .blob-3 { animation: float 12s ease-in-out infinite; }
+
+  .touch-scroll {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  @media (max-width: 639px) {
+    .fc .fc-toolbar {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .fc .fc-toolbar-chunk {
+      display: flex;
+      justify-content: center;
+    }
+
+    .fc .fc-toolbar-title {
+      font-size: 1.1rem !important;
+      text-align: center;
+    }
+
+    .fc .fc-button {
+      font-size: 0.75rem !important;
+      padding: 0.45rem 0.6rem !important;
+    }
+
+    .fc .fc-col-header-cell-cushion {
+      font-size: 0.65rem;
+      padding: 0.5rem 0.2rem !important;
+    }
+  }
 }

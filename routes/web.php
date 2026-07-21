@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('notificaciones.leer');
 
     // Rutas del Administrador
+    Route::middleware('admin')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     
     // Módulo Reservas Admin
@@ -72,4 +73,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/usuarios', [AdminUsuarioController::class, 'index'])->name('admin.usuarios.index');
     Route::post('/admin/usuarios/{user}/role', [AdminUsuarioController::class, 'updateRole'])->name('admin.usuarios.role');
     Route::post('/admin/usuarios/{user}/reset-password', [AdminUsuarioController::class, 'resetPassword'])->name('admin.usuarios.reset-password');
+    });
 });

@@ -19,8 +19,8 @@ class StoreReservaRequest extends FormRequest
         return [
             'cancha_id' => 'required|exists:canchas,id',
             'fecha' => 'required|date|after_or_equal:today',
-            'hora_inicio' => 'required|date_format:H:i',
-            'hora_fin' => 'required|date_format:H:i|after:hora_inicio',
+            'hora_inicio' => ['required', 'date_format:H:i', 'regex:/^(?:09|1[0-9]|2[01]):00$/'],
+            'hora_fin' => ['required', 'date_format:H:i', 'after:hora_inicio', 'regex:/^(?:1[0-9]|2[0-2]):00$/'],
             'codigo_estudiante' => 'nullable|string|exists:users,codigo',
         ];
     }
@@ -43,12 +43,12 @@ class StoreReservaRequest extends FormRequest
             }
 
             if ($horaInicio && $horaFin) {
-                // Verificar que la diferencia no sea mayor a 2 horas
+                // Verificar que la diferencia no sea mayor a 1 hora
                 $inicio = \Carbon\Carbon::parse($horaInicio);
                 $fin = \Carbon\Carbon::parse($horaFin);
 
-                if ($inicio->diffInHours($fin, false) > 2) {
-                    $validator->errors()->add('hora_fin', 'La duración de la reserva no puede exceder las 2 horas máximas permitidas.');
+                if ($inicio->diffInMinutes($fin, false) > 60) {
+                    $validator->errors()->add('hora_fin', 'La duración de la reserva no puede exceder 1 hora.');
                 }
             }
         });
@@ -57,9 +57,11 @@ class StoreReservaRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'codigo_estudiante.exists' => 'El código de estudiante ingresado no se encuentra registrado en el sistema.',
+            'codigo_estudiante.exists' => 'El Código/DNI ingresado no pertenece a un usuario registrado en el sistema.',
             'fecha.after_or_equal' => 'No puedes seleccionar fechas en el pasado.',
             'hora_fin.after' => 'El horario de fin debe ser posterior al horario de inicio.',
+            'hora_inicio.regex' => 'Selecciona una hora exacta de inicio entre las 09:00 y las 21:00.',
+            'hora_fin.regex' => 'Selecciona una hora exacta de finalización entre las 10:00 y las 22:00.',
             'cancha_id.exists' => 'La cancha seleccionada no es válida.',
             'hora_inicio.date_format' => 'El formato de hora de inicio no es válido.',
             'hora_fin.date_format' => 'El formato de hora de fin no es válido.',

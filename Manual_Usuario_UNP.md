@@ -65,7 +65,7 @@ Si hay olimpiadas o un mantenimiento global en el campus:
 1. Inicia sesión con tus credenciales.
 2. En la pantalla principal verás las canchas disponibles ordenadas por ubicación (Campus Piura, etc.).
 3. Haz clic en **"Reservar"** en la instalación que te interese.
-4. Selecciona la **Fecha**, la **Hora de Inicio** y la **Hora de Fin** (Máximo 2 horas permitidas por día).
+4. Selecciona la **Fecha** y elige uno de los **Horarios disponibles**. Las instalaciones atienden de 09:00 a 22:00 y el sistema ofrece bloques exactos de 1 hora (por ejemplo, de 09:00 a 10:00).
 5. Confirma tu solicitud. Verás una alerta de éxito.
 
 ### 4.2 Ver y Cancelar Mis Reservas

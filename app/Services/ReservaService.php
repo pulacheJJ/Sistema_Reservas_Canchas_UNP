@@ -20,13 +20,13 @@ class ReservaService
     {
         $userId = Auth::id();
 
-        // Si es un administrador y proporciona un código de estudiante, la reserva es para el estudiante
+        // Si el administrador proporciona un Código/DNI, la reserva se asigna a ese usuario.
         if (Auth::user()->isAdmin() && !empty($data['codigo_estudiante'])) {
-            $estudiante = User::where('codigo', $data['codigo_estudiante'])->first();
-            if ($estudiante) {
-                $userId = $estudiante->id;
+            $usuario = User::where('codigo', $data['codigo_estudiante'])->first();
+            if ($usuario) {
+                $userId = $usuario->id;
             } else {
-                throw new Exception('El código de estudiante proporcionado no existe.');
+                throw new Exception('El Código/DNI proporcionado no pertenece a un usuario registrado.');
             }
         }
 
@@ -44,7 +44,7 @@ class ReservaService
             ->whereDate('created_at', now()->toDateString())
             ->exists();
 
-        if ($reservaCreadaHoy) {
+        if ($reservaCreadaHoy && ! Auth::user()->isAdmin()) {
             throw new Exception('Límite alcanzado: Solo puedes registrar una nueva reserva por día.');
         }
 
@@ -127,8 +127,8 @@ class ReservaService
             'user_id' => Auth::id(), // El admin crea el evento
             'cancha_id' => $data['cancha_id'],
             'fecha' => $data['fecha'],
-            'hora_inicio' => '06:00:00',
-            'hora_fin' => '23:00:00',
+            'hora_inicio' => '09:00:00',
+            'hora_fin' => '22:00:00',
             'estado' => 'Aprobada',
             'is_evento' => true,
             'titulo_evento' => $data['titulo_evento']

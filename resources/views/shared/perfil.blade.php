@@ -3,20 +3,20 @@
 @section('title', 'Mi Perfil | UNP')
 
 @section('content')
-    <div class="mb-10 pb-6 border-b border-slate-200">
-        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Mi Perfil</h2>
+    <div class="mb-6 sm:mb-10 pb-4 sm:pb-6 border-b border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Mi Perfil</h2>
         <p class="text-slate-500 mt-2 font-medium">Gestiona tu información personal y credenciales de acceso al sistema.</p>
     </div>
 
     <!-- Alertas Modernas -->
     @if(session('success'))
-        <div class="mb-6 bg-emerald-50/80 backdrop-blur border border-emerald-200 text-emerald-700 px-6 py-4 rounded-xl flex items-start gap-3 shadow-sm transform transition-all" role="alert">
+        <div class="mb-6 bg-emerald-50/80 backdrop-blur border border-emerald-200 text-emerald-700 px-4 sm:px-6 py-4 rounded-xl flex items-start gap-3 shadow-sm transform transition-all" role="alert">
             <svg class="w-6 h-6 flex-shrink-0 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <span class="block sm:inline font-medium text-sm mt-0.5">{{ session('success') }}</span>
         </div>
     @endif
 
-    <div class="flex flex-col lg:flex-row gap-8">
+    <div class="flex flex-col lg:flex-row gap-5 sm:gap-8">
         
         <!-- Panel Izquierdo: Tarjeta de Resumen -->
         <div class="w-full lg:w-1/3">
@@ -54,7 +54,7 @@
 
         <!-- Panel Derecho: Formulario de Actualización -->
         <div class="w-full lg:w-2/3">
-            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-10">
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-4 sm:p-6 md:p-10">
                 <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
                     <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     Ajustes de la Cuenta
@@ -111,8 +111,8 @@
                         </div>
                     </div>
 
-                    <div class="pt-6 border-t border-slate-100 flex justify-end">
-                        <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 hover:bg-blue-700 hover:shadow-blue-500/50 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                    <div class="pt-6 border-t border-slate-100 flex justify-stretch sm:justify-end">
+                        <button type="submit" class="w-full sm:w-auto justify-center px-6 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 hover:bg-blue-700 hover:shadow-blue-500/50 hover:-translate-y-0.5 transition-all flex items-center gap-2">
                             Guardar Cambios
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                         </button>
